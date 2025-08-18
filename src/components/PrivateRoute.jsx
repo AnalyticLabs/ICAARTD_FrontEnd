@@ -1,35 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { Navigate } from "react-router-dom";
-// import { account } from "../utils/appwrite";
-
-// export default function PrivateRoute({ children }) {
-//   const [user, setUser] = useState(null);
-//   const [checking, setChecking] = useState(true);
-
-//   useEffect(() => {
-//     account
-//       .get()
-//       .then((user) => {
-//         setUser(user);
-//       })
-//       .catch(() => {
-//         setUser(null);
-//       })
-//       .finally(() => {
-//         setChecking(false);
-//       });
-//   }, []);
-
-//   if (checking)
-//     return (
-//       <div className="min-h-[60vh] flex justify-center items-center">
-//         <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
-//       </div>
-//     );
-
-//   return user ? children : <Navigate to="/login" />;
-// }
-
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { account } from "../utils/appwrite";

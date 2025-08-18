@@ -13,6 +13,4 @@ export const account = new Account(client);
 export { client };
 export const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 export const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
-export const USERS_COLLECTION_ID = import.meta.env
-  .VITE_APPWRITE_USERS_COLLECTION_ID;
 export const BUCKET_ID = import.meta.env.VITE_APPWRITE_BUCKET_ID;

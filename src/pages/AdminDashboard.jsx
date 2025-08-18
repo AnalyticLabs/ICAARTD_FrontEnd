@@ -5,7 +5,6 @@ import {
   Eye,
   Download,
   X,
-  User,
   Mail,
   StickyNote,
   Tags,
@@ -73,58 +72,6 @@ export default function AdminDashboard() {
     setModalOpen(false);
     setSelectedPdf(null);
   };
-
-  // useEffect(() => {
-  //   const fetchSubmissions = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await databases.listDocuments(
-  //         DATABASE_ID,
-  //         COLLECTION_ID
-  //       );
-  //       setPapers(response.documents);
-  //     } catch (err) {
-  //       toast.error("Failed to fetch papers");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchSubmissions();
-  // }, []);
-
-  // useEffect(() => {
-  //   const fetchSubmissions = async () => {
-  //     setLoading(true);
-  //     try {
-  //       // 1️⃣ Get current user info
-  //       const user = await account.get();
-  //       const userRole = user.prefs?.role || "Author";
-  //       const userEmail = user.email;
-
-  //       let response;
-
-  //       if (userRole === "Admin") {
-  //         // Admin sees all papers
-  //         response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
-  //       } else {
-  //         // Author sees only their papers
-  //         response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [
-  //           Query.equal("email", userEmail),
-  //         ]);
-  //       }
-
-  //       setPapers(response.documents);
-  //     } catch (err) {
-  //       console.error(err);
-  //       toast.error("Failed to fetch papers");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchSubmissions();
-  // }, []);
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -278,13 +225,6 @@ export default function AdminDashboard() {
               </div>
 
               <div className="space-y-3 text-sm bg-gray-50 rounded-xl p-4 animate-fadeIn">
-                {/* <p className="text-gray-700 flex items-start gap-2">
-                  <User className="w-4 h-4 mt-0.5 text-indigo-500" />
-                  <span>
-                    <span className="font-medium">Author:</span>{" "}
-                    {paper.fullName}
-                  </span>
-                </p> */}
                 <p className="text-gray-700 flex items-start gap-2">
                   <Mail className="w-4 h-4 mt-0.5 text-indigo-500" />
                   <span>
