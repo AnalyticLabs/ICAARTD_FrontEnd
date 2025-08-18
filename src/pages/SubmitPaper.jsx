@@ -68,6 +68,7 @@ export default function SubmitPaper() {
           abstract: form.abstract,
           keywords: form.keywords,
           pdfURL: paper.pdfURL,
+          status: "Submitted",
         });
         toast.success("Paper updated successfully!");
         navigate("/dashboard");

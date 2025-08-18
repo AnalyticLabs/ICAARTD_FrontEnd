@@ -14,6 +14,7 @@ import {
   CircleCheckBig,
   CircleX,
   FileCheck2,
+  Search,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import {
@@ -60,8 +61,21 @@ export default function AdminDashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [userRole, setUserRole] = useState("Author");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const navigate = useNavigate();
+
+  // Filter papers dynamically
+  const filteredPapers = papers.filter((paper) => {
+    const search = searchTerm.toLowerCase();
+    return (
+      paper.title?.toLowerCase().includes(search) ||
+      paper.abstract?.toLowerCase().includes(search) ||
+      paper.keywords?.toLowerCase().includes(search) ||
+      paper.email?.toLowerCase().includes(search) ||
+      paper.fullName?.toLowerCase().includes(search)
+    );
+  });
 
   const handleView = (pdfURL) => {
     setSelectedPdf(pdfURL);
@@ -162,7 +176,7 @@ export default function AdminDashboard() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="relative min-h-screen px-8 py-10 bg-gradient-to-br from-neutral-50 to-slate-100 overflow-hidden"
+      className="relative min-h-screen px-8 py-10 bg-gradient-to-br from-neutral-50 to-slate-100 overflow-y-auto scrollbar-hide"
     >
       {/* Animated Background Blobs */}
       <motion.div
@@ -185,12 +199,24 @@ export default function AdminDashboard() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 text-center mb-16"
+        className="relative z-10 text-center mb-10"
       >
         <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-transparent bg-clip-text">
           <span className="text-white">🧾</span> Admin Paper Submissions
         </h1>
       </motion.div>
+
+      {/* Stylish Search Bar */}
+      <div className="relative max-w-xl mx-auto mb-12">
+        <input
+          type="text"
+          placeholder="Search papers by title, author, keywords..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white/70 backdrop-blur-md shadow-lg border border-gray-200 focus:ring-2 focus:ring-indigo-400 focus:outline-none placeholder-gray-400"
+        />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-indigo-500 w-5 h-5" />
+      </div>
 
       {loading ? (
         <div className="text-center text-lg font-medium text-gray-600">
@@ -202,7 +228,7 @@ export default function AdminDashboard() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {papers.map((paper, index) => (
+          {filteredPapers.map((paper, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -245,7 +271,7 @@ export default function AdminDashboard() {
                     {paper.keywords}
                   </span>
                 </p>
-                <p className="text-gray-700 flex items-center gap-2">
+                {/* <p className="text-gray-700 flex items-center gap-2">
                   <Loader className="w-4 h-4 mt-0.5 text-indigo-500" />
                   <span className="font-medium">Status:</span>
                   {userRole === "Admin" ? (
@@ -268,12 +294,10 @@ export default function AdminDashboard() {
                         }
                       }}
                     >
-                      {/* Trigger */}
                       <SelectTrigger className="w-52 rounded-xl border border-gray-200 shadow-md bg-white px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-400">
                         <SelectValue />
                       </SelectTrigger>
 
-                      {/* Dropdown Content */}
                       <SelectContent className="rounded-xl shadow-lg border border-gray-200 bg-white p-2">
                         <SelectItem
                           value="Submitted"
@@ -332,6 +356,106 @@ export default function AdminDashboard() {
                       {paper.status}
                     </span>
                   )}
+                </p> */}
+
+                <p className="text-gray-700 flex items-center gap-2">
+                  <Loader className="w-4 h-4 mt-0.5 text-indigo-500" />
+                  <span className="font-medium">Status:</span>
+                  {userRole === "Admin" ? (
+                    paper.status === "Accept" ? (
+                      <span
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                          getStatusUI(paper.status).bg
+                        }`}
+                      >
+                        {getStatusUI(paper.status).icon}
+                        {paper.status}
+                      </span>
+                    ) : (
+                      <Select
+                        defaultValue={paper.status || "Submitted"}
+                        onValueChange={async (value) => {
+                          try {
+                            const updated = await databases.updateDocument(
+                              DATABASE_ID,
+                              COLLECTION_ID,
+                              paper.$id,
+                              { status: value }
+                            );
+                            setPapers((prev) =>
+                              prev.map((p) =>
+                                p.$id === paper.$id ? updated : p
+                              )
+                            );
+                            toast.success("Status updated!");
+                          } catch (err) {
+                            toast.error("Failed to update status");
+                          }
+                        }}
+                      >
+                        <SelectTrigger className="w-52 rounded-xl border border-gray-200 shadow-md bg-white px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-400">
+                          <SelectValue />
+                        </SelectTrigger>
+
+                        <SelectContent className="rounded-xl shadow-lg border border-gray-200 bg-white p-2">
+                          <SelectItem
+                            value="Submitted"
+                            className="cursor-pointer mb-1.5 rounded-full px-4 py-1.5 text-sm font-medium bg-gray-100 text-gray-800 hover:bg-gray-200"
+                          >
+                            <span>
+                              <Newspaper className="w-3 h-3 mr-0.5" />
+                            </span>
+                            Submitted
+                          </SelectItem>
+                          <SelectItem
+                            value="Review Awaiting"
+                            className="cursor-pointer mb-1.5 rounded-full px-4 py-1.5 text-sm font-medium bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                          >
+                            <span>
+                              <Hourglass className="w-3 h-3 mr-0.5" />
+                            </span>
+                            Review Awaiting
+                          </SelectItem>
+                          <SelectItem
+                            value="Review Obtained"
+                            className="cursor-pointer mb-1.5 rounded-full px-4 py-1.5 text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200"
+                          >
+                            <span>
+                              <FileCheck2 className="w-3 h-3 mr-0.5" />
+                            </span>
+                            Review Obtained
+                          </SelectItem>
+                          <SelectItem
+                            value="Accept"
+                            className="cursor-pointer mb-1.5 rounded-full px-4 py-1.5 text-sm font-medium bg-green-100 text-green-800 hover:bg-green-200"
+                          >
+                            <span>
+                              <CircleCheckBig className="w-3 h-3 mr-0.5" />
+                            </span>
+                            Accept
+                          </SelectItem>
+                          <SelectItem
+                            value="Reject"
+                            className="cursor-pointer mb-1.5 rounded-full px-4 py-1.5 text-sm font-medium bg-red-100 text-red-800 hover:bg-red-200"
+                          >
+                            <span>
+                              <CircleX className="w-3 h-3 mr-0.5" />
+                            </span>
+                            Reject
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )
+                  ) : (
+                    <span
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        getStatusUI(paper.status).bg
+                      }`}
+                    >
+                      {getStatusUI(paper.status).icon}
+                      {paper.status}
+                    </span>
+                  )}
                 </p>
               </div>
 
@@ -351,20 +475,22 @@ export default function AdminDashboard() {
                     <Download className="w-4 h-4" /> Download
                   </a>
                 </div>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => handleEdit(paper)}
-                    className="cursor-pointer text-white bg-yellow-500 hover:bg-yellow-600 rounded-3xl px-4 py-1 font-medium inline-flex items-center gap-1 transition"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(paper)}
-                    className="cursor-pointer text-white bg-red-500 hover:bg-red-600 rounded-3xl px-4 py-1 font-medium inline-flex items-center gap-1 transition"
-                  >
-                    Delete
-                  </button>
-                </div>
+                {paper.status !== "Accept" && (
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => handleEdit(paper)}
+                      className="cursor-pointer text-white bg-yellow-500 hover:bg-yellow-600 rounded-3xl px-4 py-1 font-medium inline-flex items-center gap-1 transition"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(paper)}
+                      className="cursor-pointer text-white bg-red-500 hover:bg-red-600 rounded-3xl px-4 py-1 font-medium inline-flex items-center gap-1 transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
