@@ -30,7 +30,7 @@ export default function Register() {
     }
 
     // Prevent unauthorized Admin registrations
-    if (role === 'Admin' && formData.email !== 'dibyajyotis855@gmail.com') {
+    if (role === 'Admin' && formData.email !== 'nimai.analyticlabs@gmail.com') {
       toast.error('Only the official admin register as Admin!');
       return;
     }
