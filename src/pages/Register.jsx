@@ -1,21 +1,20 @@
-import { motion } from "framer-motion";
-import { Mail, Lock, UserPlus, User } from "lucide-react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { account } from "../utils/appwrite";
-import { ID } from "appwrite";
-import { registerUser } from "@/utils/auth";
+import { motion } from 'framer-motion';
+import { Mail, Lock, UserPlus, User } from 'lucide-react';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { account } from '../utils/appwrite';
+import { ID } from 'appwrite';
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
-  const [role, setRole] = useState("Admin");
+  const [role, setRole] = useState('Admin');
 
   const navigate = useNavigate();
 
@@ -26,13 +25,13 @@ export default function Register() {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match!");
+      toast.error('Passwords do not match!');
       return;
     }
 
     // Prevent unauthorized Admin registrations
-    if (role === "Admin" && formData.email !== "dibyajyotis855@gmail.com") {
-      toast.error("Only the official admin register as Admin!");
+    if (role === 'Admin' && formData.email !== 'dibyajyotis855@gmail.com') {
+      toast.error('Only the official admin register as Admin!');
       return;
     }
 
@@ -55,24 +54,24 @@ export default function Register() {
       await account.updatePrefs({ role });
 
       const user = await account.get();
-      const userRole = user.prefs?.role || "Admin";
+      const userRole = user.prefs?.role || 'Admin';
 
       // Redirect based on role
-      if (userRole === "Admin") {
-        navigate("/dashboard");
-      } else if (userRole === "Author") {
-        navigate("/submit-paper");
+      if (userRole === 'Admin') {
+        navigate('/dashboard');
+      } else if (userRole === 'Author') {
+        navigate('/submit-paper');
       } else {
-        toast.error("Please select prefered role!");
+        toast.error('Please select prefered role!');
       }
 
-      toast.success("Registration successful!");
+      toast.success('Registration successful!');
       // navigate("/login");
     } catch (error) {
       if (error.code === 409) {
-        toast.error("User already exists! Please Login");
+        toast.error('User already exists! Please Login');
       } else {
-        toast.error("Registration failed");
+        toast.error('Registration failed');
       }
     }
   };
@@ -106,15 +105,15 @@ export default function Register() {
 
           {/* Toggle Tabs */}
           <div className="flex w-full mt-4 border border-indigo-300 rounded-xl overflow-hidden">
-            {["Admin", "Author"].map((tab) => (
+            {['Admin', 'Author'].map((tab) => (
               <button
                 key={tab}
                 type="button"
                 onClick={() => setRole(tab)}
                 className={`px-6 py-2 w-1/2 cursor-pointer font-medium transition-colors ${
                   role === tab
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white text-indigo-600"
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-white text-indigo-600'
                 }`}
               >
                 {tab}
@@ -194,7 +193,7 @@ export default function Register() {
 
         {/* Login Link */}
         <div className="mt-6 text-center text-sm text-gray-600">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link
             to="/login"
             className="text-indigo-600 font-medium hover:underline"
