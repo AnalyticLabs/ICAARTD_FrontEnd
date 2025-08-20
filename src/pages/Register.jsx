@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { account } from "../utils/appwrite";
-import { ID, Query } from "appwrite";
+import { ID } from "appwrite";
+import { registerUser } from "@/utils/auth";
 
 export default function Register() {
   const [formData, setFormData] = useState({

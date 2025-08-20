@@ -176,7 +176,7 @@ export default function AdminDashboard() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="relative min-h-screen px-8 py-10 bg-gradient-to-br from-neutral-50 to-slate-100 overflow-y-auto scrollbar-hide"
+      className="relative min-h-screen px-8 py-10 bg-gradient-to-br from-neutral-50 to-slate-100 overflow-hidden"
     >
       {/* Animated Background Blobs */}
       <motion.div

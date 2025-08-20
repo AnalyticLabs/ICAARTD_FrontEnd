@@ -51,7 +51,6 @@ export default function Login() {
       }
     }
   };
-
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-indigo-100 to-purple-200 px-4 overflow-hidden">
       {/* Floating Background Shapes */}
