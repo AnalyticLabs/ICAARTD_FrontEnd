@@ -305,8 +305,8 @@ export default function Navbar() {
       {/* Mobile */}
       <div className="md:hidden flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2 cursor-pointer">
-          <img src={WybbleAI} alt="WybbleAI Logo" className="w-9 h-9" />
-          <span className="text-2xl font-bold font-poppins">WybbleAI</span>
+          <img src={ConfLogo} alt="ICAARTD Logo" className="w-9 h-9" />
+          <span className="text-2xl font-bold font-poppins">ICAARTD</span>
         </Link>
         <button onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X /> : <Menu />}
