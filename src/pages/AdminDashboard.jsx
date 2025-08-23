@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   FileText,
   Eye,
@@ -15,8 +15,8 @@ import {
   CircleX,
   FileCheck2,
   Search,
-} from "lucide-react";
-import toast from "react-hot-toast";
+} from 'lucide-react';
+import toast from 'react-hot-toast';
 import {
   databases,
   storage,
@@ -24,44 +24,44 @@ import {
   DATABASE_ID,
   COLLECTION_ID,
   account,
-} from "../utils/appwrite";
-import { useNavigate } from "react-router-dom";
-import { Query } from "appwrite";
+} from '../utils/appwrite';
+import { useNavigate } from 'react-router-dom';
+import { Query } from 'appwrite';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 export default function AdminDashboard() {
   const [papers, setPapers] = useState([
     {
-      fullName: "Jane Doe",
-      email: "jane@example.com",
-      title: "AI in Healthcare",
+      fullName: 'Jane Doe',
+      email: 'jane@example.com',
+      title: 'AI in Healthcare',
       abstract:
-        "This paper explores the applications of artificial intelligence in the healthcare sector, including diagnostics, treatment recommendations, and patient monitoring.",
-      keywords: "AI, Healthcare",
-      pdfPath: "sample-paper.pdf",
+        'This paper explores the applications of artificial intelligence in the healthcare sector, including diagnostics, treatment recommendations, and patient monitoring.',
+      keywords: 'AI, Healthcare',
+      pdfPath: 'sample-paper.pdf',
     },
     {
-      fullName: "John Smith",
-      email: "john@example.com",
-      title: "Machine Learning in Finance",
+      fullName: 'John Smith',
+      email: 'john@example.com',
+      title: 'Machine Learning in Finance',
       abstract:
-        "We examine machine learning techniques used in fraud detection, credit scoring, and algorithmic trading.",
-      keywords: "ML, Finance",
-      pdfPath: "sample-paper.pdf",
+        'We examine machine learning techniques used in fraud detection, credit scoring, and algorithmic trading.',
+      keywords: 'ML, Finance',
+      pdfPath: 'sample-paper.pdf',
     },
   ]);
 
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPdf, setSelectedPdf] = useState(null);
-  const [userRole, setUserRole] = useState("Author");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [userRole, setUserRole] = useState('Author');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const navigate = useNavigate();
 
@@ -92,22 +92,22 @@ export default function AdminDashboard() {
       setLoading(true);
       try {
         const user = await account.get();
-        const role = user.prefs?.role || "Author";
+        const role = user.prefs?.role || 'Author';
         setUserRole(role); // ✅ store role
         const userEmail = user.email;
 
         let response;
-        if (role === "Admin") {
+        if (role === 'Admin') {
           response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
         } else {
           response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID, [
-            Query.equal("email", userEmail),
+            Query.equal('email', userEmail),
           ]);
         }
         setPapers(response.documents);
       } catch (err) {
         console.error(err);
-        toast.error("Failed to fetch papers");
+        toast.error('Failed to fetch papers');
       } finally {
         setLoading(false);
       }
@@ -117,11 +117,11 @@ export default function AdminDashboard() {
   }, []);
 
   const handleEdit = (paper) => {
-    navigate("/submit-paper", { state: { paper, isEdit: true } });
+    navigate('/submit-paper', { state: { paper, isEdit: true } });
   };
 
   const handleDelete = async (paper) => {
-    if (!window.confirm("Are you sure you want to delete this paper?")) return;
+    if (!window.confirm('Are you sure you want to delete this paper?')) return;
 
     try {
       if (paper.pdfFileId) {
@@ -131,42 +131,42 @@ export default function AdminDashboard() {
       await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, paper.$id);
 
       setPapers((prev) => prev.filter((p) => p.$id !== paper.$id));
-      toast.success("Paper deleted successfully!");
+      toast.success('Paper deleted successfully!');
     } catch (error) {
-      toast.error("Failed to delete paper");
+      toast.error('Failed to delete paper');
     }
   };
 
   const getStatusUI = (status) => {
     switch (status) {
-      case "Submitted":
+      case 'Submitted':
         return {
-          bg: "bg-gray-100 text-gray-800",
+          bg: 'bg-gray-100 text-gray-800',
           icon: <Newspaper className="w-3 h-3 mr-1" />,
         };
-      case "Review Awaiting":
+      case 'Review Awaiting':
         return {
-          bg: "bg-yellow-100 text-yellow-800",
+          bg: 'bg-yellow-100 text-yellow-800',
           icon: <Hourglass className="w-3 h-3 mr-1" />,
         };
-      case "Review Obtained":
+      case 'Review Obtained':
         return {
-          bg: "bg-blue-100 text-blue-800",
+          bg: 'bg-blue-100 text-blue-800',
           icon: <FileCheck2 className="w-3 h-3 mr-1" />,
         };
-      case "Accept":
+      case 'Accept':
         return {
-          bg: "bg-green-100 text-green-800",
+          bg: 'bg-green-100 text-green-800',
           icon: <CircleCheckBig className="w-3 h-3 mr-1" />,
         };
-      case "Reject":
+      case 'Reject':
         return {
-          bg: "bg-red-100 text-red-800",
+          bg: 'bg-red-100 text-red-800',
           icon: <CircleX className="w-3 h-3 mr-1" />,
         };
       default:
         return {
-          bg: "bg-gray-100 text-gray-800",
+          bg: 'bg-gray-100 text-gray-800',
           icon: <Loader className="w-3 h-3 mr-1" />,
         };
     }
@@ -236,7 +236,7 @@ export default function AdminDashboard() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{
                 scale: 1.05,
-                boxShadow: "0px 8px 24px rgba(99, 102, 241, 0.4)",
+                boxShadow: '0px 8px 24px rgba(99, 102, 241, 0.4)',
               }}
               className="relative bg-white p-6 rounded-2xl border border-gray-200 shadow-md group transition-all duration-300 overflow-hidden"
             >
@@ -260,14 +260,14 @@ export default function AdminDashboard() {
                 <p className="text-gray-700 flex items-start gap-2">
                   <StickyNote className="w-[16px] h-[18px] text-indigo-500 mt-[2px] flex-shrink-0" />
                   <span className="leading-snug">
-                    <span className="font-medium">Abstract:</span>{" "}
+                    <span className="font-medium">Abstract:</span>{' '}
                     {paper.abstract}
                   </span>
                 </p>
                 <p className="text-gray-700 flex items-start gap-2">
                   <Tags className="w-4 h-4 mt-0.5 text-indigo-500" />
                   <span>
-                    <span className="font-medium">Keywords:</span>{" "}
+                    <span className="font-medium">Keywords:</span>{' '}
                     {paper.keywords}
                   </span>
                 </p>
@@ -361,8 +361,8 @@ export default function AdminDashboard() {
                 <p className="text-gray-700 flex items-center gap-2">
                   <Loader className="w-4 h-4 mt-0.5 text-indigo-500" />
                   <span className="font-medium">Status:</span>
-                  {userRole === "Admin" ? (
-                    paper.status === "Accept" ? (
+                  {userRole === 'Admin' ? (
+                    paper.status === 'Accept' ? (
                       <span
                         className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                           getStatusUI(paper.status).bg
@@ -373,7 +373,7 @@ export default function AdminDashboard() {
                       </span>
                     ) : (
                       <Select
-                        defaultValue={paper.status || "Submitted"}
+                        defaultValue={paper.status || 'Submitted'}
                         onValueChange={async (value) => {
                           try {
                             const updated = await databases.updateDocument(
@@ -387,9 +387,9 @@ export default function AdminDashboard() {
                                 p.$id === paper.$id ? updated : p
                               )
                             );
-                            toast.success("Status updated!");
+                            toast.success('Status updated!');
                           } catch (err) {
-                            toast.error("Failed to update status");
+                            toast.error('Failed to update status');
                           }
                         }}
                       >
@@ -475,8 +475,8 @@ export default function AdminDashboard() {
                     <Download className="w-4 h-4" /> Download
                   </a>
                 </div>
-                {paper.status !== "Accept" && (
-                  <div className="flex gap-3">
+                {paper.status !== 'Accept' && (
+                  <div className="flex gap-2 ml-2">
                     <button
                       onClick={() => handleEdit(paper)}
                       className="cursor-pointer text-white bg-yellow-500 hover:bg-yellow-600 rounded-3xl px-4 py-1 font-medium inline-flex items-center gap-1 transition"
