@@ -3,8 +3,7 @@ import { Mail, Lock, UserPlus, User } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { account } from '../utils/appwrite';
-import { ID } from 'appwrite';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -21,60 +20,58 @@ export default function Register() {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const { register } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match!');
-      return;
-    }
-
-    // Prevent unauthorized Admin registrations
-    if (role === 'Admin' && formData.email !== 'nimai.analyticlabs@gmail.com') {
-      toast.error('Only the official admin register as Admin!');
-      return;
-    }
-
     try {
-      // 1. Create the user
-      await account.create(
-        ID.unique(),
-        formData.email,
-        formData.password,
-        formData.username
-      );
+      await register({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        role,
+      });
 
-      // 2. Login the user immediately (to get a session and permission to update prefs)
-      await account.createEmailPasswordSession(
-        formData.email,
-        formData.password
-      );
-
-      // 3. Set the role in user preferences
-      await account.updatePrefs({ role });
-
-      const user = await account.get();
-      const userRole = user.prefs?.role || 'Admin';
-
-      // Redirect based on role
-      if (userRole === 'Admin') {
-        navigate('/dashboard');
-      } else if (userRole === 'Author') {
-        navigate('/submit-paper');
-      } else {
-        toast.error('Please select prefered role!');
-      }
+      if (role === 'Admin') navigate('/dashboard');
+      else navigate('/submit-paper');
 
       toast.success('Registration successful!');
-      // navigate("/login");
-    } catch (error) {
-      if (error.code === 409) {
-        toast.error('User already exists! Please Login');
-      } else {
-        toast.error('Registration failed');
-      }
+    } catch (err) {
+      toast.error(err.message || 'Registration failed!');
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (formData.password !== formData.confirmPassword) {
+  //     toast.error('Passwords do not match!');
+  //     return;
+  //   }
+
+  //   try {
+  //     const newUser = await register({
+  //       username: formData.username,
+  //       email: formData.email,
+  //       password: formData.password,
+  //       confirmPassword: formData.confirmPassword,
+  //       role,
+  //     });
+
+  //     toast.success('Registration successful!');
+
+  //     if (newUser?.prefs?.role === 'Admin') {
+  //       navigate('/dashboard');
+  //     } else {
+  //       navigate('/submit-paper');
+  //     }
+  //   } catch (err) {
+  //     toast.error(err.message || 'Registration failed!');
+  //   }
+  // };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 px-4 overflow-hidden">
       {/* Background Shapes */}

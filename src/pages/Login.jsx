@@ -1,54 +1,36 @@
-import { motion } from "framer-motion";
-import { Lock, Mail, LogIn } from "lucide-react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { account } from "../utils/appwrite";
+import { motion } from 'framer-motion';
+import { Lock, Mail, LogIn } from 'lucide-react';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [role, setRole] = useState("Admin");
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [role, setRole] = useState('Admin');
   const navigate = useNavigate();
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const { login } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      // 1. Login
-      await account.createEmailPasswordSession(
-        formData.email,
-        formData.password
-      );
+      await login({
+        email: formData.email,
+        password: formData.password,
+        role,
+      });
 
-      // 2. Get user details from Appwrite
-      const user = await account.get();
-      const storedRole = user.prefs?.role;
+      if (role === 'Admin') navigate('/dashboard');
+      else navigate('/submit-paper');
 
-      // 3. Check if role matches
-      if (storedRole !== role) {
-        toast.error(`You are registered as ${storedRole}, not ${role}`);
-        await account.deleteSession("current"); // logout immediately
-        return;
-      }
-
-      // 4. Redirect based on actual role
-      if (storedRole === "Admin") {
-        navigate("/dashboard");
-      } else if (storedRole === "Author") {
-        navigate("/submit-paper");
-      }
-
-      toast.success("Login successful");
-    } catch (error) {
-      if (error.code === 401) {
-        toast.error("Invalid email or password");
-      } else if (error.code === 404) {
-        toast.error("User not registered yet!");
-      } else {
-        toast.error("Login failed");
-      }
+      toast.success('Login successful!');
+    } catch (err) {
+      toast.error(err.message || 'Login failed!');
     }
   };
   return (
@@ -80,15 +62,15 @@ export default function Login() {
 
           {/* Toggle Tabs */}
           <div className="flex w-full mt-4 border border-indigo-300 rounded-xl overflow-hidden">
-            {["Admin", "Author"].map((tab) => (
+            {['Admin', 'Author'].map((tab) => (
               <button
                 key={tab}
                 type="button"
                 onClick={() => setRole(tab)}
                 className={`px-6 py-2 w-1/2 cursor-pointer font-medium transition-colors ${
                   role === tab
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white text-indigo-600"
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-white text-indigo-600'
                 }`}
               >
                 {tab}
@@ -138,7 +120,7 @@ export default function Login() {
         </form>
 
         <div className="mt-6 text-center text-sm text-gray-600">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <Link
             to="/register"
             className="text-indigo-600 font-medium hover:underline"

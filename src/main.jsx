@@ -1,20 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import App from "./App";
-import Home from "./pages/Home";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
-import "./App.css";
-import { Toaster } from "react-hot-toast";
-import Guidelines from "./pages/Guidelines";
-import SubmitPaper from "./pages/SubmitPaper";
-import ReviewProcss from "./pages/ReviewProcess";
-import Presentation from "./pages/Presentation";
-import AdminDashboard from "./pages/AdminDashboard";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import PrivateRoute from "./components/PrivateRoute";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import App from './App';
+import Home from './pages/Home';
+import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
+import './App.css';
+import { Toaster } from 'react-hot-toast';
+import Guidelines from './pages/Guidelines';
+import SubmitPaper from './pages/SubmitPaper';
+import ReviewProcss from './pages/ReviewProcess';
+import Presentation from './pages/Presentation';
+import AdminDashboard from './pages/AdminDashboard';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import PrivateRoute from './components/PrivateRoute';
+import { AuthProvider } from './context/AuthContext';
 
 function Root() {
   return (
@@ -25,7 +26,7 @@ function Root() {
           <Route
             path="submit-paper"
             element={
-              <PrivateRoute allowedRoles={["Author", "Admin"]}>
+              <PrivateRoute allowedRoles={['Author', 'Admin']}>
                 <SubmitPaper />
               </PrivateRoute>
             }
@@ -37,7 +38,7 @@ function Root() {
           <Route
             path="dashboard"
             element={
-              <PrivateRoute allowedRoles={["Admin", "Author"]}>
+              <PrivateRoute allowedRoles={['Admin', 'Author']}>
                 <AdminDashboard />
               </PrivateRoute>
             }
@@ -52,8 +53,10 @@ function Root() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Root />
+    <AuthProvider>
+      <Root />
+    </AuthProvider>
   </React.StrictMode>
 );

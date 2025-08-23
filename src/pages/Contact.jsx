@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 import {
   Mail,
   Phone,
@@ -10,77 +10,77 @@ import {
   FileText,
   GraduationCap,
   Globe,
-} from "lucide-react";
+} from 'lucide-react';
 
 const contactData = [
   {
-    title: "Email",
+    title: 'Email',
     icon: Mail,
     data: [
       {
-        title: "nimai.analyticlabs@gmail.com",
-        value: "mailto:nimai.analyticlabs@gmail.com",
+        title: 'nimai.analyticlabs@gmail.com',
+        value: 'mailto:nimai.analyticlabs@gmail.com',
       },
       {
-        title: "solutions.analyticlabs@gmail.com",
-        value: "mailto:solutions.analyticlabs@gmail.com",
+        title: 'solutions.analyticlabs@gmail.com',
+        value: 'mailto:solutions.analyticlabs@gmail.com',
       },
       {
-        title: "solutions.wybbleai@gmail.com",
-        value: "mailto:solutions.wybbleai@gmail.com",
+        title: 'solutions.wybbleai@gmail.com',
+        value: 'mailto:solutions.wybbleai@gmail.com',
       },
     ],
   },
   {
-    title: "Phone",
+    title: 'Phone',
     icon: Phone,
     data: [
-      { title: "+91 9591957282", value: "tel:+919591957282" },
-      { title: "+91 8460578783", value: "tel:+918460578783" },
+      { title: '+91 9591957282', value: 'tel:+919591957282' },
+      // { title: '+91 8460578783', value: 'tel:+918460578783' },
     ],
   },
-  {
-    title: "Socials",
-    icon: Share2,
-    data: [
-      {
-        title: "WhatsApp",
-        value: "https://wa.me/+919591957282",
-        icon: <MessageCircle className="text-green-600" size={18} />,
-      },
-      {
-        title: "LinkedIn",
-        value: "https://www.linkedin.com/in/nimai-chand-das-adhikari-932396ba",
-        icon: <Linkedin className="text-blue-700" size={18} />,
-      },
-      {
-        title: "Google Scholar",
-        value: "https://scholar.google.co.in/citations?user=JDq-uwwAAAAJ&hl=en",
-        icon: <BookOpen className="text-purple-700" size={18} />,
-      },
-      {
-        title: "ResearchGate",
-        value: "https://www.researchgate.net/profile/Nimai-Das-Adhikari-2",
-        icon: <GraduationCap className="text-green-700" size={18} />,
-      },
-      {
-        title: "IEEE",
-        value:
-          "https://ieeexplore.ieee.org/search/searchresult.jsp?newsearch=true&queryText=nimai%20chand%20das%20adhikari",
-        icon: <Globe className="text-gray-800" size={18} />,
-      },
-      {
-        title: "SlideShare",
-        value: "https://www.slideshare.net/NimaiChandDasAdhikar",
-        icon: <FileText className="text-orange-500" size={18} />,
-      },
-      {
-        title: "Instagram",
-        value: "https://www.instagram.com/chand_nimai?igsh=NmdsYThvaGV5eHhh",
-        icon: <Instagram className="text-pink-500" size={18} />,
-      },
-    ],
-  },
+  // {
+  //   title: "Socials",
+  //   icon: Share2,
+  //   data: [
+  //     {
+  //       title: "WhatsApp",
+  //       value: "https://wa.me/+919591957282",
+  //       icon: <MessageCircle className="text-green-600" size={18} />,
+  //     },
+  //     {
+  //       title: "LinkedIn",
+  //       value: "https://www.linkedin.com/in/nimai-chand-das-adhikari-932396ba",
+  //       icon: <Linkedin className="text-blue-700" size={18} />,
+  //     },
+  //     {
+  //       title: "Google Scholar",
+  //       value: "https://scholar.google.co.in/citations?user=JDq-uwwAAAAJ&hl=en",
+  //       icon: <BookOpen className="text-purple-700" size={18} />,
+  //     },
+  //     {
+  //       title: "ResearchGate",
+  //       value: "https://www.researchgate.net/profile/Nimai-Das-Adhikari-2",
+  //       icon: <GraduationCap className="text-green-700" size={18} />,
+  //     },
+  //     {
+  //       title: "IEEE",
+  //       value:
+  //         "https://ieeexplore.ieee.org/search/searchresult.jsp?newsearch=true&queryText=nimai%20chand%20das%20adhikari",
+  //       icon: <Globe className="text-gray-800" size={18} />,
+  //     },
+  //     {
+  //       title: "SlideShare",
+  //       value: "https://www.slideshare.net/NimaiChandDasAdhikar",
+  //       icon: <FileText className="text-orange-500" size={18} />,
+  //     },
+  //     {
+  //       title: "Instagram",
+  //       value: "https://www.instagram.com/chand_nimai?igsh=NmdsYThvaGV5eHhh",
+  //       icon: <Instagram className="text-pink-500" size={18} />,
+  //     },
+  //   ],
+  // },
 ];
 
 export default function Contact() {
@@ -120,7 +120,7 @@ export default function Contact() {
       </motion.div>
 
       {/* 🧊 Contact Cards */}
-      <div className="relative z-10 grid gap-10 md:grid-cols-3">
+      <div className="relative z-10 grid gap-10 md:grid-cols-2 justify-center">
         {contactData.map((section, i) => (
           <motion.div
             key={i}
@@ -148,7 +148,7 @@ export default function Contact() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 hover:text-indigo-600 transition font-medium"
                   >
-                    {"icon" in item && item.icon}
+                    {'icon' in item && item.icon}
                     {item.title}
                   </a>
                 </li>

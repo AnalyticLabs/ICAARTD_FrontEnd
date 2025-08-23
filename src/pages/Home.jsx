@@ -1,19 +1,20 @@
-import Hero from "../components/Hero";
-import Features from "../components/Features";
-import { motion } from "framer-motion";
-import Supporters from "../components/Supporters";
+import Hero from '../components/Hero';
+import Features from '../components/Features';
+import { motion } from 'framer-motion';
+import Supporters from '../components/Supporters';
 import {
   Lightbulb,
   FileText,
   Layers,
   ClipboardCheck,
   PhoneCall,
-} from "lucide-react";
+} from 'lucide-react';
+import Speakers from '@/components/Speakers';
 
 const sections = [
   {
     icon: <Lightbulb className="text-purple-600" size={28} />,
-    title: "Welcome to ICAARTD Forum",
+    title: 'Welcome to ICAARTD Forum',
     content: (
       <>
         ICAARTD is your gateway to presenting pioneering research and
@@ -26,16 +27,16 @@ const sections = [
   },
   {
     icon: <FileText className="text-indigo-600" size={28} />,
-    title: "Publication & Indexing",
+    title: 'Publication & Indexing',
     content: (
       <>
-        Accepted papers will be published in the{" "}
+        Accepted papers will be published in the{' '}
         <a
           href="/dashboard"
           className="text-indigo-600 font-medium underline underline-offset-4"
         >
           ICAARTD Dashboard
-        </a>{" "}
+        </a>{' '}
         and other recognized academic databases. Select high-quality research
         may be invited for publication in partnered international journals.
       </>
@@ -43,7 +44,7 @@ const sections = [
   },
   {
     icon: <Layers className="text-blue-600" size={28} />,
-    title: "Submission Tracks",
+    title: 'Submission Tracks',
     content: (
       <>
         We welcome submissions in (but not limited to):
@@ -60,41 +61,41 @@ const sections = [
   },
   {
     icon: <ClipboardCheck className="text-teal-600" size={28} />,
-    title: "Submission Guidelines",
+    title: 'Submission Guidelines',
     content: (
       <>
         Submissions must be in PDF format, in clear English, and follow the
         required template. All papers go through a double-blind peer review.
-        Visit the{" "}
+        Visit the{' '}
         <a
           href="/guidelines"
           className="text-indigo-600 font-medium underline underline-offset-4"
         >
           Submission Guidelines
-        </a>{" "}
+        </a>{' '}
         page for details.
       </>
     ),
   },
   {
     icon: <PhoneCall className="text-pink-600" size={28} />,
-    title: "Contact & Support",
+    title: 'Contact & Support',
     content: (
       <>
         For queries related to submission, formatting, or registration:
         <ul className="list-disc list-inside mt-2">
           <li>
-            Email:{" "}
+            Email:{' '}
             <span className="font-medium text-indigo-600">
               nimai.analyticlabs@gmail.com
             </span>
           </li>
           <li>
-            Phone:{" "}
+            Phone:{' '}
             <span className="font-medium text-indigo-600">+91 9591957282</span>
           </li>
           <li>
-            Submission Portal:{" "}
+            Submission Portal:{' '}
             <a
               href="/submit-paper"
               className="font-medium text-indigo-600 underline underline-offset-4"
@@ -118,6 +119,7 @@ export default function Home() {
       <div className="bg-gradient-to-b from-purple-700 to-indigo-600">
         <Hero />
       </div>
+      <Speakers />
       <Features />
       <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 py-10 px-4 sm:px-8 lg:px-16">
         {sections.map((section, index) => (
