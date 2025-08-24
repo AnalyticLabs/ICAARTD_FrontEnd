@@ -337,7 +337,7 @@ export default function Navbar() {
               </li>
             ))}
 
-            {!user ? (
+            {/* {!user ? (
               <>
                 <li>
                   <Link
@@ -374,6 +374,50 @@ export default function Navbar() {
                     setMobileOpen(false);
                   }}
                   className="w-full cursor-pointer flex justify-start items-center gap-2 py-1 px-3 rounded-md font-semibold bg-red-600 text-white hover:bg-white hover:text-red-600"
+                >
+                  Logout
+                </button>
+              </li>
+            )} */}
+
+            {/* Mobile Auth Buttons */}
+            {!user ? (
+              <>
+                <li>
+                  <Link
+                    to="/register"
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-2 py-2 px-4 rounded-full font-semibold transition ${
+                      pathname === '/register'
+                        ? 'bg-white text-indigo-700'
+                        : 'bg-purple-600 text-white hover:bg-white hover:text-purple-600'
+                    }`}
+                  >
+                    <UserPlus className="w-4 h-4" /> Register
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-2 py-2 px-4 rounded-full font-semibold transition ${
+                      pathname === '/login'
+                        ? 'bg-white text-indigo-700'
+                        : 'bg-green-600 text-white hover:bg-white hover:text-green-600'
+                    }`}
+                  >
+                    <LogIn className="w-4 h-4" /> Login
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileOpen(false);
+                  }}
+                  className="w-full flex items-center gap-2 py-2 px-4 rounded-full font-semibold bg-red-600 text-white hover:bg-white hover:text-red-600"
                 >
                   Logout
                 </button>

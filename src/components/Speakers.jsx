@@ -422,70 +422,22 @@ export default function Speakers() {
                 viewport={{ once: true }}
               >
                 <div className="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180 rounded-xl shadow-md border border-gray-200">
-                  {/* Front Side */}
                   <div className="absolute w-full h-full backface-hidden rounded-xl overflow-hidden">
                     <img
                       src={speaker.src}
                       alt={speaker.name}
                       className="w-full h-full object-cover"
                     />
+                    {/* Overlay at bottom */}
+                    <div className="absolute bottom-0 w-full bg-black/50 text-white p-2 text-center rounded-b-xl">
+                      <h4 className="text-base font-semibold">
+                        {speaker.name}
+                      </h4>
+                      <p className="text-sm font-light">
+                        {speaker.role.split(',')[1]?.trim() || speaker.role}
+                      </p>
+                    </div>
                   </div>
-
-                  {/* Back Side */}
-                  {/* <div
-                    className="absolute w-full h-full backface-hidden rotate-y-180 
-  bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 
-  rounded-xl p-6 flex flex-col justify-center items-center text-center text-white"
-                  >
-                    <h3 className="text-xl font-semibold">{speaker.name}</h3>
-
-                    <p className="text-base opacity-90">{speaker.role}</p>
-
-                    <p className="text-base opacity-90">{speaker.title}</p>
-
-                    <a
-                      href={speaker.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-white hover:text-teal-400"
-                    >
-                      <Linkedin size={18} />
-                      <span>{speaker.name}</span>
-                    </a>
-
-                    <div className="w-8 h-1 bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500 rounded mt-4" />
-                  </div> */}
-
-                  {/* Back Side */}
-                  {/* <div
-                    className="absolute w-full h-full backface-hidden rotate-y-180 
-  bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 
-  rounded-xl p-6 flex flex-col justify-center items-center text-center text-white"
-                  >
-                    <h3 className="text-2xl font-bold mb-1 tracking-wide">
-                      {speaker.name}
-                    </h3>
-
-                    <p className="text-sm font-medium text-teal-200 mb-3 uppercase">
-                      {speaker.role}
-                    </p>
-
-                    <p className="text-base font-light text-white/90 leading-relaxed mb-4">
-                      {speaker.title}
-                    </p>
-
-                    <a
-                      href={speaker.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-white hover:text-teal-400 font-semibold"
-                    >
-                      <Linkedin size={18} />
-                      <span>{speaker.name}</span>
-                    </a>
-
-                    <div className="w-10 h-1 bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500 rounded mt-4" />
-                  </div> */}
 
                   <div
                     className="absolute w-56 h-64 backface-hidden rotate-y-180
