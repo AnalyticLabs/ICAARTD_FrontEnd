@@ -25,6 +25,51 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // REGISTER
+  // const register = async ({
+  //   username,
+  //   email,
+  //   password,
+  //   confirmPassword,
+  //   role,
+  // }) => {
+  //   if (password !== confirmPassword) {
+  //     throw { message: 'Passwords do not match!' };
+  //   }
+
+  //   try {
+  //     // 1. Call your backend function instead of account.create
+  //     const response = await fetch(import.meta.env.VITE_APPWRITE_BACKEND_URL, {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         action: 'register',
+  //         username,
+  //         email,
+  //         password,
+  //         cpassword: confirmPassword,
+  //         role,
+  //       }),
+  //     });
+
+  //     const result = await response.json();
+
+  //     if (!response.ok || !result.success) {
+  //       throw { message: result.message || 'Registration failed' };
+  //     }
+
+  //     // 2. After successful backend registration, log the user in
+  //     await account.createEmailPasswordSession(email, password);
+
+  //     // 3. Fetch user & update state
+  //     const currentUser = await account.get();
+  //     setUser(currentUser);
+
+  //     return currentUser;
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // };
+
   const register = async ({
     username,
     email,
@@ -37,7 +82,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      // 1. Call your backend function instead of account.create
       const response = await fetch(import.meta.env.VITE_APPWRITE_BACKEND_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,16 +95,20 @@ export const AuthProvider = ({ children }) => {
         }),
       });
 
-      const result = await response.json();
+      // Only parse JSON if the response has content
+      let result = {};
+      const contentType = response.headers.get('Content-Type') || '';
+      if (contentType.includes('application/json')) {
+        result = await response.json();
+      }
 
       if (!response.ok || !result.success) {
         throw { message: result.message || 'Registration failed' };
       }
 
-      // 2. After successful backend registration, log the user in
+      // Login after successful backend registration
       await account.createEmailPasswordSession(email, password);
 
-      // 3. Fetch user & update state
       const currentUser = await account.get();
       setUser(currentUser);
 
