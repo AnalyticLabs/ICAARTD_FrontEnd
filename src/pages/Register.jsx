@@ -42,36 +42,6 @@ export default function Register() {
       toast.error(err.message || 'Registration failed!');
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (formData.password !== formData.confirmPassword) {
-  //     toast.error('Passwords do not match!');
-  //     return;
-  //   }
-
-  //   try {
-  //     const newUser = await register({
-  //       username: formData.username,
-  //       email: formData.email,
-  //       password: formData.password,
-  //       confirmPassword: formData.confirmPassword,
-  //       role,
-  //     });
-
-  //     toast.success('Registration successful!');
-
-  //     if (newUser?.prefs?.role === 'Admin') {
-  //       navigate('/dashboard');
-  //     } else {
-  //       navigate('/submit-paper');
-  //     }
-  //   } catch (err) {
-  //     toast.error(err.message || 'Registration failed!');
-  //   }
-  // };
-
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 px-4 overflow-hidden">
       {/* Background Shapes */}

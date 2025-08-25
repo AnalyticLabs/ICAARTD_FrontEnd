@@ -36,22 +36,31 @@ export const AuthProvider = ({ children }) => {
       throw { message: 'Passwords do not match!' };
     }
 
-    // Prevent unauthorized Admin registration
-    if (role === 'Admin' && email !== import.meta.env.VITE_ADMIN_EMAIL) {
-      throw { message: 'Only the official admin can register as Admin!' };
-    }
-
     try {
-      // 1. Create user
-      await account.create(ID.unique(), email, password, username);
+      // 1. Call your backend function instead of account.create
+      const response = await fetch(import.meta.env.VITE_APPWRITE_BACKEND_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'register',
+          username,
+          email,
+          password,
+          cpassword: confirmPassword,
+          role,
+        }),
+      });
 
-      // 2. Login immediately
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw { message: result.message || 'Registration failed' };
+      }
+
+      // 2. After successful backend registration, log the user in
       await account.createEmailPasswordSession(email, password);
 
-      // 3. Set role in prefs
-      await account.updatePrefs({ role });
-
-      // 4. Fetch updated user
+      // 3. Fetch user & update state
       const currentUser = await account.get();
       setUser(currentUser);
 
@@ -99,118 +108,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use AuthContext
 export const useAuth = () => useContext(AuthContext);
-
-// import { createContext, useContext, useState, useEffect } from 'react';
-// import toast from 'react-hot-toast';
-
-// const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   const BASE_URL = import.meta.env.VITE_APPWRITE_BACKEND_URL;
-
-//   // ----- Fetch current user on mount -----
-//   useEffect(() => {
-//     const fetchUser = async () => {
-//       try {
-//         const res = await fetch(BASE_URL, {
-//           method: 'POST',
-//           headers: { 'Content-Type': 'application/json' },
-//           credentials: 'include', // important to send cookies
-//           body: JSON.stringify({ action: 'getUser' }),
-//         });
-
-//         const data = await res.json();
-//         if (data.success) setUser(data.user);
-//       } catch {
-//         setUser(null);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchUser();
-//   }, []);
-
-//   // ----- Register -----
-//   const register = async ({
-//     username,
-//     email,
-//     password,
-//     confirmPassword,
-//     role,
-//   }) => {
-//     try {
-//       const res = await fetch(BASE_URL, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         credentials: 'include',
-//         body: JSON.stringify({
-//           action: 'register',
-//           username,
-//           email,
-//           password,
-//           cpassword: confirmPassword,
-//           role,
-//         }),
-//       });
-
-//       const data = await res.json();
-//       if (!data.success) throw new Error(data.message);
-
-//       setUser(data.user);
-//       return data.user;
-//     } catch (err) {
-//       throw err;
-//     }
-//   };
-
-//   // ----- Login -----
-//   const login = async ({ email, password }) => {
-//     try {
-//       const res = await fetch(BASE_URL, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         credentials: 'include',
-//         body: JSON.stringify({ action: 'login', email, password }),
-//       });
-
-//       const data = await res.json();
-//       if (!data.success) throw new Error(data.message);
-
-//       setUser(data.user);
-//       return data.user;
-//     } catch (err) {
-//       throw err;
-//     }
-//   };
-
-//   // ----- Logout -----
-//   const logout = async () => {
-//     try {
-//       await fetch(BASE_URL, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         credentials: 'include',
-//         body: JSON.stringify({ action: 'logout' }),
-//       });
-
-//       setUser(null);
-//       toast.success('Logged out successfully!');
-//     } catch {
-//       toast.error('Logout failed!');
-//     }
-//   };
-
-//   return (
-//     <AuthContext.Provider value={{ user, loading, register, login, logout }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export const useAuth = () => useContext(AuthContext);
