@@ -203,7 +203,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, LogIn, UserPlus } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import WybbleAI from '../assets/logo.png';
 import ConfLogo from '../assets/conf_logo.png';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext'; // import AuthContext
