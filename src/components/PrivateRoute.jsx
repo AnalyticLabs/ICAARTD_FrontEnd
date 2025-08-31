@@ -1,45 +1,15 @@
-import { useEffect, useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { account } from "../utils/appwrite";
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
-export default function PrivateRoute({ children, allowedRoles }) {
-  const [user, setUser] = useState(null);
-  const [checking, setChecking] = useState(true);
-  const location = useLocation();
+export default function PrivateRoute({ allowedRoles, children }) {
+  const { user } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    account
-      .get()
-      .then((userData) => {
-        setUser(userData);
-      })
-      .catch(() => {
-        setUser(null);
-      })
-      .finally(() => {
-        setChecking(false);
-      });
-  }, []);
+  // If user is not logged in, redirect to login
+  if (!user) return <Navigate to="/login" replace />;
 
-  if (checking) {
-    return (
-      <div className="min-h-[60vh] flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location }} />;
-  }
-
-  // Role checking from prefs
-  const userRole = user.prefs?.role || "Admin"; // Default 'user' if not set
-
-  if (!allowedRoles.includes(userRole)) {
-    // If role is not allowed, send them away
-    return <Navigate to="/" />;
-  }
+  // If user role is not allowed, redirect to home
+  if (allowedRoles && !allowedRoles.includes(user.role))
+    return <Navigate to="/" replace />;
 
   return children;
 }

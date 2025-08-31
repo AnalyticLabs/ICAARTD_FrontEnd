@@ -1,45 +1,39 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { User, Mail, FileText, FilePlus } from "lucide-react";
-import { ChevronDown, Check } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  databases,
-  storage,
-  BUCKET_ID,
-  DATABASE_ID,
-  COLLECTION_ID,
-} from "../utils/appwrite";
-import { ID, Permission, Role } from "appwrite";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { User, Mail, FileText, FilePlus } from 'lucide-react';
+import { ChevronDown, Check } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitPaper, updatePaper } from '../features/papers/paperSlice';
 
 export default function SubmitPaper() {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { paper, isEdit } = location.state || {};
 
   const [form, setForm] = useState({
-    fullName: paper?.fullName || "",
-    email: paper?.email || "",
-    title: paper?.title || "",
-    abstract: paper?.abstract || "",
-    keywords: paper?.keywords || "",
+    fullname: paper?.fullname || '',
+    email: paper?.email || '',
+    paperTitle: paper?.paperTitle || '',
+    abstract: paper?.abstract || '',
+    keywords: paper?.keywords ? paper.keywords[0] : '',
     confirm: false,
     pdfFile: null,
     supplementary: null,
   });
 
+  const { loading } = useSelector((state) => state.papers);
+
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-    if (type === "file") {
-      setForm((prev) => ({
-        ...prev,
-        [name]: files[0],
-      }));
+    if (type === 'file') {
+      setForm((prev) => ({ ...prev, [name]: files[0] }));
     } else {
       setForm((prev) => ({
         ...prev,
-        [name]: type === "checkbox" ? checked : value,
+        [name]: type === 'checkbox' ? checked : value,
       }));
     }
   };
@@ -48,104 +42,60 @@ export default function SubmitPaper() {
     e.preventDefault();
 
     if (
-      !form.fullName ||
+      !form.fullname ||
       !form.email ||
-      !form.title ||
+      !form.paperTitle ||
       !form.abstract ||
       (!form.pdfFile && !isEdit) ||
       !form.confirm
     ) {
-      toast.error("All fields are required");
+      toast.error('All fields are required');
       return;
     }
 
+    const formData = new FormData();
+    formData.append('fullname', form.fullname);
+    formData.append('email', form.email);
+    formData.append('paperTitle', form.paperTitle);
+    formData.append('abstract', form.abstract);
+    formData.append('keywords', form.keywords);
+
+    if (form.pdfFile) formData.append('pdfFile', form.pdfFile);
+    if (form.supplementary)
+      formData.append('supplementaryPdf', form.supplementary);
+
     try {
+      toast.loading(
+        isEdit ? 'Updating your paper...' : 'Submitting your paper...'
+      );
+
       if (isEdit) {
-        await databases.updateDocument(DATABASE_ID, COLLECTION_ID, paper.$id, {
-          fullName: form.fullName,
-          email: form.email,
-          title: form.title,
-          abstract: form.abstract,
-          keywords: form.keywords,
-          pdfURL: paper.pdfURL,
-          status: "Submitted",
-        });
-        toast.success("Paper updated successfully!");
-        navigate("/dashboard");
-        return;
-      }
-
-      toast.loading("Uploading your files...");
-
-      const pdfFileId = ID.unique();
-      const uploadedPDF = await storage.createFile(
-        BUCKET_ID,
-        pdfFileId,
-        form.pdfFile,
-        [Permission.read(Role.any())]
-      );
-      const pdfURL = storage.getFileView(BUCKET_ID, uploadedPDF.$id).toString();
-
-      if (!pdfURL) {
+        await dispatch(updatePaper({ paperId: paper._id, formData })).unwrap();
         toast.dismiss();
-        toast.error("PDF upload failed. URL not generated.");
-        return;
+        toast.success('Paper updated successfully!');
+      } else {
+        await dispatch(submitPaper(formData)).unwrap();
+        toast.dismiss();
+        toast.success('Paper submitted successfully!');
       }
 
-      let suppURL = null;
-      if (form.supplementary) {
-        const suppFileId = ID.unique();
-        const uploadedSupp = await storage.createFile(
-          BUCKET_ID,
-          suppFileId,
-          form.supplementary,
-          [Permission.read(Role.any())]
-        );
-        suppURL = storage.getFileView(BUCKET_ID, uploadedSupp.$id).toString();
-      }
-
-      toast.loading("Submitting your data...");
-
-      const documentData = {
-        fullName: form.fullName,
-        email: form.email,
-        title: form.title,
-        abstract: form.abstract,
-        keywords: form.keywords || "",
-        pdfURL,
-        suppURL,
-      };
-
-      await databases.createDocument(
-        DATABASE_ID,
-        COLLECTION_ID,
-        ID.unique(),
-        documentData
-      );
-
-      toast.dismiss();
-      toast.success("Paper submitted successfully!");
-      navigate("/dashboard");
+      navigate('/dashboard');
     } catch (error) {
       toast.dismiss();
-      toast.error(error?.message || "Something went wrong");
+      toast.error(error || 'Something went wrong');
     }
   };
 
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
-    show: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: 0.1 * i },
-    }),
+    show: (i) => ({ opacity: 1, y: 0, transition: { delay: 0.1 * i } }),
   };
 
   const keywordOptions = [
-    { label: "Artificial Intelligence", value: "AI" },
-    { label: "Machine Learning", value: "ML" },
-    { label: "Natural Language Processing", value: "NLP" },
-    { label: "Computer Vision", value: "CV" },
+    { label: 'Artificial Intelligence', value: 'AI' },
+    { label: 'Machine Learning', value: 'ML' },
+    { label: 'Natural Language Processing', value: 'NLP' },
+    { label: 'Computer Vision', value: 'CV' },
   ];
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -169,7 +119,7 @@ export default function SubmitPaper() {
         initial={{ opacity: 0, y: 30, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         whileHover={{ scale: 1.015 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
         className="relative z-10 w-full max-w-3xl mx-auto mt-12 mb-10 px-8 py-10 bg-white/70 backdrop-blur-2xl shadow-[rgba(0,0,0,0.15)_0px_25px_50px_-12px] rounded-[2rem] border border-white/30"
       >
         <motion.h2
@@ -193,9 +143,9 @@ export default function SubmitPaper() {
             <div className="relative">
               <User className="absolute left-3 top-3 text-indigo-500" />
               <input
-                name="fullName"
+                name="fullname"
                 placeholder="Full Name"
-                value={form.fullName}
+                value={form.fullname}
                 onChange={handleChange}
                 className="w-full pl-10 p-3 rounded-xl bg-white/60 border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
@@ -221,9 +171,9 @@ export default function SubmitPaper() {
             custom={2}
           >
             <input
-              name="title"
+              name="paperTitle"
               placeholder="Paper Title"
-              value={form.title}
+              value={form.paperTitle}
               onChange={handleChange}
               className="w-full p-3 rounded-xl bg-white/60 border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
             />
@@ -261,7 +211,7 @@ export default function SubmitPaper() {
               <span className="text-gray-700">
                 {form.keywords
                   ? keywordOptions.find((k) => k.value === form.keywords)?.label
-                  : "Select Keywords"}
+                  : 'Select Keywords'}
               </span>
               <motion.div
                 animate={{ rotate: dropdownOpen ? 180 : 0 }}
@@ -271,7 +221,6 @@ export default function SubmitPaper() {
               </motion.div>
             </button>
 
-            {/* Dropdown Menu */}
             <AnimatePresence>
               {dropdownOpen && (
                 <motion.ul
@@ -292,7 +241,7 @@ export default function SubmitPaper() {
                         setDropdownOpen(false);
                       }}
                       className={`px-4 py-3 cursor-pointer hover:bg-indigo-50 flex items-center justify-between ${
-                        form.keywords === option.value ? "bg-indigo-100" : ""
+                        form.keywords === option.value ? 'bg-indigo-100' : ''
                       }`}
                     >
                       {option.label}
@@ -329,7 +278,7 @@ export default function SubmitPaper() {
                 />
               </label>
               <span className="text-gray-600 text-sm">
-                {form.pdfFile ? form.pdfFile.name : "No file chosen"}
+                {form.pdfFile ? form.pdfFile.name : 'No file chosen'}
               </span>
             </div>
           </motion.div>
@@ -359,7 +308,7 @@ export default function SubmitPaper() {
               <span className="text-gray-600 text-sm">
                 {form.supplementary
                   ? form.supplementary.name
-                  : "No file chosen"}
+                  : 'No file chosen'}
               </span>
             </div>
           </motion.div>
@@ -390,8 +339,9 @@ export default function SubmitPaper() {
             custom={8}
             type="submit"
             className="w-full cursor-pointer py-3 mt-2 text-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-xl hover:scale-105 transition-transform"
+            disabled={loading}
           >
-            {isEdit ? "✏️ Edit Paper" : "🚀 Submit"}
+            {isEdit ? '✏️ Edit Paper' : '🚀 Submit'}
           </motion.button>
         </form>
       </motion.div>

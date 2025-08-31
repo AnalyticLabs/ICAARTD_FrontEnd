@@ -3,7 +3,8 @@ import { Mail, Lock, UserPlus, User } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useAuth } from '@/context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../features/auth/authSlice';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -13,33 +14,38 @@ export default function Register() {
     confirmPassword: '',
   });
 
-  const [role, setRole] = useState('Admin');
+  const [role, setRole] = useState('admin');
 
   const navigate = useNavigate();
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const { register } = useAuth();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await register({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        confirmPassword: formData.confirmPassword,
-        role,
-      });
+      const resultAction = await dispatch(
+        registerUser({
+          fullname: formData.username,
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+          role,
+        })
+      ).unwrap();
 
-      if (role === 'Admin') navigate('/dashboard');
-      else navigate('/submit-paper');
+      console.log('ResultAction: ', resultAction);
 
+      const userRole = resultAction.user.role;
       toast.success('Registration successful!');
+
+      if (userRole === 'admin') navigate('/dashboard');
+      else navigate('/submit-paper');
     } catch (err) {
-      toast.error(err.message || 'Registration failed!');
+      toast.error(err);
     }
   };
   return (
@@ -72,12 +78,12 @@ export default function Register() {
 
           {/* Toggle Tabs */}
           <div className="flex w-full mt-4 border border-indigo-300 rounded-xl overflow-hidden">
-            {['Admin', 'Author'].map((tab) => (
+            {['admin', 'author'].map((tab) => (
               <button
                 key={tab}
                 type="button"
                 onClick={() => setRole(tab)}
-                className={`px-6 py-2 w-1/2 cursor-pointer font-medium transition-colors ${
+                className={`px-6 py-2 w-1/2 cursor-pointer font-medium transition-colors capitalize ${
                   role === tab
                     ? 'bg-indigo-600 text-white'
                     : 'bg-white text-indigo-600'

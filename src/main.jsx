@@ -15,7 +15,9 @@ import AdminDashboard from './pages/AdminDashboard';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import PrivateRoute from './components/PrivateRoute';
-import { AuthProvider } from './context/AuthContext';
+import { Provider } from 'react-redux';
+import { persistor, store } from './store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function Root() {
   return (
@@ -26,7 +28,7 @@ function Root() {
           <Route
             path="submit-paper"
             element={
-              <PrivateRoute allowedRoles={['Author', 'Admin']}>
+              <PrivateRoute allowedRoles={['author', 'admin']}>
                 <SubmitPaper />
               </PrivateRoute>
             }
@@ -38,7 +40,7 @@ function Root() {
           <Route
             path="dashboard"
             element={
-              <PrivateRoute allowedRoles={['Admin', 'Author']}>
+              <PrivateRoute allowedRoles={['admin', 'author']}>
                 <AdminDashboard />
               </PrivateRoute>
             }
@@ -55,8 +57,10 @@ function Root() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <Root />
-    </AuthProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Root />
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
