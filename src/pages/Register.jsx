@@ -37,8 +37,6 @@ export default function Register() {
         })
       ).unwrap();
 
-      console.log('ResultAction: ', resultAction);
-
       const userRole = resultAction.user.role;
       toast.success('Registration successful!');
 

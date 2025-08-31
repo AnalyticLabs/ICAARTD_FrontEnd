@@ -135,7 +135,7 @@ const authSlice = createSlice({
 
       .addCase(refreshTokens.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken; // ✅ update both
+        state.refreshToken = action.payload.refreshToken;
       });
   },
 });

@@ -28,8 +28,6 @@ export default function Login() {
         })
       ).unwrap();
 
-      console.log('ResultAction: ', resultAction);
-
       const userRole = resultAction.user.role;
       toast.success('Login successful!');
 
