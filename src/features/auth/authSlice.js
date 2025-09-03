@@ -16,6 +16,48 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// ------------------ Verify OTP ------------------
+export const verifyOtp = createAsyncThunk(
+  'auth/verifyOtp',
+  async ({ email, otp, role }, { rejectWithValue }) => {
+    try {
+      console.log('Sending OTP payload:', { email, otp, role });
+      const response = await axiosInstance.post('/users/verify-otp', {
+        email,
+        otp,
+        role,
+      });
+      console.log('Verify OTP response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('Verify OTP error:', error.response?.data || error);
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        'OTP verification failed';
+      return rejectWithValue(message);
+    }
+  }
+);
+
+// ------------------ Resend OTP ------------------
+export const resendOtp = createAsyncThunk(
+  'auth/resendOtp',
+  async ({ email, role }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('/users/resend-otp', {
+        email,
+        role,
+      });
+      return response.data.message;
+    } catch (error) {
+      const message =
+        error.response?.data?.message || error.message || 'Resend OTP failed';
+      return rejectWithValue(message);
+    }
+  }
+);
+
 // Login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
@@ -76,10 +118,12 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
+    role: null,
     accessToken: null,
     refreshToken: null,
     loading: false,
     error: null,
+    otpMessage: null,
   },
   reducers: {
     updateToken: (state, action) => {
@@ -102,6 +146,7 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.role = action.payload.user?.role;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
       })
@@ -118,12 +163,45 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.role = action.payload.user?.role;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      // ---------------- Verify OTP ----------------
+      .addCase(verifyOtp.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ---------------- Resend OTP ----------------
+      .addCase(resendOtp.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.otpMessage = null;
+      })
+      .addCase(resendOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.otpMessage = action.payload;
+      })
+      .addCase(resendOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.otpMessage = null;
       })
 
       // Logout

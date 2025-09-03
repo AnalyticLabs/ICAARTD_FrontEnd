@@ -18,6 +18,7 @@ import PrivateRoute from './components/PrivateRoute';
 import { Provider } from 'react-redux';
 import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
+import VerifyOTP from './pages/verifyOTP';
 
 function Root() {
   return (
@@ -47,6 +48,7 @@ function Root() {
           />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="verify-otp" element={<VerifyOTP />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

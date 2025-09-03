@@ -37,15 +37,21 @@ export default function Register() {
         })
       ).unwrap();
 
-      const userRole = resultAction.user.role;
-      toast.success('Registration successful!');
+      console.log('Navigating to VerifyOTP with:', {
+        email: resultAction.email,
+        role: resultAction.role,
+      });
 
-      if (userRole === 'admin') navigate('/dashboard');
-      else navigate('/submit-paper');
+      toast.success('Registration successful! Please verify your email.');
+      // Navigate to OTP verification page
+      navigate('/verify-otp', {
+        state: { email: resultAction.email, userRole: resultAction.role },
+      });
     } catch (err) {
-      toast.error(err);
+      toast.error('Failed to send OTP');
     }
   };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 px-4 overflow-hidden">
       {/* Background Shapes */}
