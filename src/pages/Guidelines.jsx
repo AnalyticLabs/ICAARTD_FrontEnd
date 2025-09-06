@@ -79,46 +79,6 @@ export default function Guidelines() {
       </motion.div>
 
       {/* Cards */}
-      {/* <div className="relative z-10 grid gap-10 md:grid-cols-3">
-        {sections.map((section, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 40, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: idx * 0.2 }}
-            whileHover={{ scale: 1.02 }}
-            className={`bg-gradient-to-br ${section.color} rounded-2xl shadow-xl p-6 border border-white/60 backdrop-blur-lg transition-transform duration-300`}
-          >
-            <div className="flex items-center mb-4">
-              <section.icon className="w-6 h-6 text-indigo-600 mr-2" />
-              <h2 className="text-xl font-semibold text-gray-800">
-                {section.title}
-              </h2>
-            </div>
-            <ul className="list-disc list-inside text-gray-700 space-y-3 text-sm">
-              {section.points.map((point, i) => (
-                <li key={i}>
-                  {section.title === 'Submission Process' && i === 1 ? (
-                    <>
-                      For technical issues, contact:{' '}
-                      <a
-                        href={`mailto:${section.email}`}
-                        className="text-indigo-600 underline"
-                      >
-                        {section.email}
-                      </a>
-                    </>
-                  ) : (
-                    point
-                  )}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
-      </div> */}
-
       <div className="relative z-10 grid gap-10 md:grid-cols-3">
         {sections.map((section, idx) => (
           <motion.div

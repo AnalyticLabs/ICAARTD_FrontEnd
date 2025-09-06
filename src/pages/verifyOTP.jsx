@@ -36,17 +36,18 @@ export default function VerifyOTP() {
     const otpValue = otp.join('');
     if (otpValue.length !== 6) return toast.error('Enter complete OTP');
 
+    let toastId;
     try {
+      toastId = toast.loading('Verifying OTP...');
       const resultAction = await dispatch(
         verifyOtp({ email, otp: otpValue, role })
       ).unwrap();
-      toast.success('Email verified successfully!');
+      toast.success('Email verified successfully!', { id: toastId });
 
       // Redirect based on role
       if (resultAction.user.role === 'admin') navigate('/dashboard');
       else navigate('/submit-paper');
     } catch (err) {
-      console.error('OTP verification failed:', err);
       toast.error(err || 'Verification failed');
     }
   };
@@ -54,56 +55,17 @@ export default function VerifyOTP() {
   const handleResend = async () => {
     if (!email || !role) return toast.error('Email or role not available');
 
+    let toastId;
     try {
+      toastId = toast.loading('Resending OTP...');
       const message = await dispatch(resendOtp({ email, role })).unwrap();
-      toast.success(message || 'OTP resent successfully');
+      toast.success(message || 'OTP resent successfully', { id: toastId });
     } catch (err) {
-      console.error('Resend OTP failed:', err);
       toast.error(err || 'Resending OTP failed');
     }
   };
 
   return (
-    // <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-    //   <h2 className="text-2xl font-bold mb-4 text-indigo-600">
-    //     Verify Your Email
-    //   </h2>
-    //   <p className="mb-6 text-gray-600">
-    //     Enter the 6-digit OTP sent to <strong>{email}</strong>
-    //   </p>
-
-    //   <div className="flex space-x-2 mb-4">
-    //     {otp.map((data, index) => (
-    //       <input
-    //         key={index}
-    //         type="text"
-    //         maxLength="1"
-    //         value={data}
-    //         onChange={(e) => handleChange(e.target, index)}
-    //         onKeyDown={(e) => handleBackspace(e, index)}
-    //         ref={(el) => (inputsRef.current[index] = el)}
-    //         className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:border-indigo-500 focus:ring-1 focus:ring-indigo-300"
-    //       />
-    //     ))}
-    //   </div>
-
-    //   <button
-    //     onClick={handleVerify}
-    //     disabled={loading}
-    //     className="w-full bg-indigo-600 text-white py-2 rounded-lg mb-3 hover:bg-indigo-700 transition"
-    //   >
-    //     {loading ? 'Verifying...' : 'Verify OTP'}
-    //   </button>
-
-    //   <button
-    //     onClick={handleResend}
-    //     disabled={loading}
-    //     className="w-full text-indigo-600 border border-indigo-600 py-2 rounded-lg hover:bg-indigo-50 transition"
-    //   >
-    //     Resend OTP
-    //   </button>
-    // </div>
-
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white shadow-lg rounded-2xl w-full max-w-md p-8">
         <h2 className="text-2xl font-bold mb-4 text-center text-indigo-600">

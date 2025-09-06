@@ -18,11 +18,6 @@ export default function Hero() {
 
   useEffect(() => {
     // Start the scrolling animation
-    // scrollControls.start({
-    //   x: '-100%',
-    //   transition: { repeat: Infinity, duration: 15, ease: 'linear' },
-    // });
-
     scrollControls.start({
       x: '-100vw',
       transition: { repeat: Infinity, duration: 15, ease: 'linear' },
@@ -30,14 +25,14 @@ export default function Hero() {
   }, [scrollControls]);
 
   const handleMouseEnter = () => {
-    scrollControls.stop(); // pause animation on hover
+    scrollControls.stop();
   };
 
   const handleMouseLeave = () => {
     scrollControls.start({
       x: '-100%',
       transition: { repeat: Infinity, duration: 15, ease: 'linear' },
-    }); // resume animation
+    });
   };
 
   return (
@@ -54,15 +49,6 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="text-center px-4"
         >
-          {/* Subtitle */}
-          {/* <h4 className="text-base sm:text-lg md:text-xl font-medium tracking-wide italic text-white/90 drop-shadow-md mb-2 text-center">
-            <span className="block">
-              1<sup>st</sup> International Conference On Advancements in Applied
-              Research & Technological Development
-            </span>
-            <span className="block">Bengaluru, India, 2025</span>
-          </h4> */}
-
           <h4 className="text-base sm:text-lg md:text-xl font-medium tracking-wide italic text-white/90 drop-shadow-md mb-2 text-center">
             <span className="block">
               1<sup>st</sup> International Conference On Advancements in Applied
@@ -138,9 +124,6 @@ export default function Hero() {
             stroke="red"
             strokeWidth={3}
           />
-          {/* Abstract Submission Deadline - 15th Oct 2025 | Paper Ready Manuscript
-          Submission Deadline - 31st Oct 2025 | Conference Date - Last Saturday,
-          December 2025 | Mode: Both Virtual & Offline */}
           Abstract Submission Deadline - 15th Oct 2025 | Full Paper Submission -
           31st Oct 2025 | Proceedings Submitted to IEEE Xplore, Scopus & Web of
           Science | Conference Date - Last Saturday, December 2025 | Mode:
