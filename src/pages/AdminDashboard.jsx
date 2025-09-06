@@ -106,12 +106,14 @@ export default function AdminDashboard() {
   };
 
   const handleStatusChange = async (paperId, status) => {
-    const toastId = toast.loading('Updating status...');
     try {
+      toast.loading('Updating status...');
       await dispatch(updatePaperStatus({ paperId, status })).unwrap();
-      toast.success('Status updated!', { id: toastId });
+      toast.dismiss();
+      toast.success('Status updated!');
       fetchPapers();
     } catch (err) {
+      toast.dismiss();
       toast.error('Failed to update status');
     }
   };

@@ -36,18 +36,19 @@ export default function VerifyOTP() {
     const otpValue = otp.join('');
     if (otpValue.length !== 6) return toast.error('Enter complete OTP');
 
-    let toastId;
     try {
-      toastId = toast.loading('Verifying OTP...');
+      toast.loading('Verifying OTP...');
       const resultAction = await dispatch(
         verifyOtp({ email, otp: otpValue, role })
       ).unwrap();
-      toast.success('Email verified successfully!', { id: toastId });
+      toast.dismiss();
+      toast.success('Email verified successfully!');
 
       // Redirect based on role
       if (resultAction.user.role === 'admin') navigate('/dashboard');
       else navigate('/submit-paper');
     } catch (err) {
+      toast.dismiss();
       toast.error(err || 'Verification failed');
     }
   };

@@ -19,9 +19,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let toastId;
     try {
-      toastId = toast.loading('Logging in...');
+      toast.loading('Logging in...');
       const resultAction = await dispatch(
         loginUser({
           email: formData.email,
@@ -31,11 +30,13 @@ export default function Login() {
       ).unwrap();
 
       const userRole = resultAction.user.role;
-      toast.success('Login successful!', { id: toastId });
+      toast.dismiss();
+      toast.success('Login successful!');
 
       if (userRole === 'admin') navigate('/dashboard');
       else navigate('/submit-paper');
     } catch (err) {
+      toast.dismiss();
       toast.error('Login failed!');
     }
   };

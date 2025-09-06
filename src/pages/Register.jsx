@@ -26,9 +26,8 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let toastId;
     try {
-      toastId = toast.loading('Registering...');
+      toast.loading('Registering...');
       const resultAction = await dispatch(
         registerUser({
           fullname: formData.username,
@@ -39,14 +38,14 @@ export default function Register() {
         })
       ).unwrap();
 
-      toast.success('Registration successful! Please verify your email.', {
-        id: toastId,
-      });
+      toast.dismiss();
+      toast.success('Registration successful! Please verify your email.');
       // Navigate to OTP verification page
       navigate('/verify-otp', {
         state: { email: resultAction.email, userRole: resultAction.role },
       });
     } catch (err) {
+      toast.dismiss();
       toast.error('Failed to send OTP');
     }
   };
