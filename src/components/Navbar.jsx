@@ -26,12 +26,13 @@ export default function Navbar() {
   const { user } = useSelector((state) => state.auth);
 
   const handleLogout = async () => {
-    let toastId;
     try {
-      toastId = toast.loading('Logging out...');
+      toast.loading('Logging out...');
       await dispatch(logoutUser()).unwrap();
-      toast.success('Logged out successfully', { id: toastId });
+      toast.dismiss();
+      toast.success('Logged out successfully');
     } catch {
+      toast.dismiss();
       toast.error('Logout failed!');
     } finally {
       navigate('/');
