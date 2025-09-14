@@ -25,7 +25,7 @@ export default function Hero() {
   }, [scrollControls]);
 
   return (
-    <section className="relative py-13 bg-gradient-to-b from-indigo-600 to-white overflow-hidden">
+    <section className="relative py-16 bg-gradient-to-b from-indigo-600 to-white overflow-hidden">
       {/* Decorative blurred background elements */}
       <div className="absolute top-10 left-10 w-72 h-72 bg-indigo-300 rounded-full opacity-20 blur-3xl"></div>
       <div className="absolute bottom-0 right-10 w-72 h-72 bg-white rounded-full opacity-30 blur-2xl"></div>
@@ -121,7 +121,7 @@ export default function Hero() {
           </button>
         </motion.div>
       </div>
-      <div className="mt-5 w-full overflow-hidden">
+      <div className="mt-7 w-full overflow-hidden">
         <p className="whitespace-nowrap text-red-600 text-2xl md:text-xl font-bold py-2 flex items-center cursor-pointer marquee pause">
           <Megaphone
             className="w-5 h-5 mr-2 flex-shrink-0"
