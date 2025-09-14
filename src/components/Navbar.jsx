@@ -9,8 +9,6 @@ import { logoutUser } from '../features/auth/authSlice';
 
 const navLinks = [
   { path: '/', label: 'Home' },
-  { path: '/submit-paper', label: 'Submission' },
-  { path: '/guidelines', label: 'Guidelines' },
   {
     path: '/tracks',
     label: (
@@ -20,9 +18,11 @@ const navLinks = [
       </>
     ),
   },
+  { path: '/submit-paper', label: 'Submission' },
+  { path: '/dashboard', label: 'Dashboard' },
+  { path: '/guidelines', label: 'Guidelines' },
   { path: '/review-process', label: 'Review' },
   { path: '/presentation', label: 'Presentation' },
-  { path: '/dashboard', label: 'Dashboard' },
   { path: '/contact', label: 'Contact' },
 ];
 
