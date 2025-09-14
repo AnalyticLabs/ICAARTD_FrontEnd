@@ -11,6 +11,15 @@ const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/submit-paper', label: 'Submission' },
   { path: '/guidelines', label: 'Guidelines' },
+  {
+    path: '/tracks',
+    label: (
+      <>
+        <span className="hidden md:inline">Conference Tracks</span>
+        <span className="inline md:hidden">Tracks</span>
+      </>
+    ),
+  },
   { path: '/review-process', label: 'Review' },
   { path: '/presentation', label: 'Presentation' },
   { path: '/dashboard', label: 'Dashboard' },

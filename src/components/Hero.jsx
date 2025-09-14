@@ -24,19 +24,8 @@ export default function Hero() {
     });
   }, [scrollControls]);
 
-  const handleMouseEnter = () => {
-    scrollControls.stop();
-  };
-
-  const handleMouseLeave = () => {
-    scrollControls.start({
-      x: '-100%',
-      transition: { repeat: Infinity, duration: 15, ease: 'linear' },
-    });
-  };
-
   return (
-    <section className="relative py-20 bg-gradient-to-b from-indigo-600 to-white overflow-hidden">
+    <section className="relative py-13 bg-gradient-to-b from-indigo-600 to-white overflow-hidden">
       {/* Decorative blurred background elements */}
       <div className="absolute top-10 left-10 w-72 h-72 bg-indigo-300 rounded-full opacity-20 blur-3xl"></div>
       <div className="absolute bottom-0 right-10 w-72 h-72 bg-white rounded-full opacity-30 blur-2xl"></div>
@@ -79,6 +68,11 @@ export default function Hero() {
           </span>
           ,{' '}
           <span className="text-blue-800 font-semibold">Machine Learning</span>,{' '}
+          <span className="text-blue-800 font-semibold">AR/VR</span>,{' '}
+          <span className="text-blue-800 font-semibold">
+            Digital Technologies
+          </span>
+          ,{' '}
           <span className="text-blue-800 font-semibold">
             Sustainable Energy
           </span>
@@ -86,7 +80,10 @@ export default function Hero() {
           <span className="text-blue-800 font-semibold">
             Smart Manufacturing
           </span>
-          , <span className="text-blue-800 font-semibold">IoT</span>,{' '}
+          , <span className="text-blue-800 font-semibold">Mobility</span>,{' '}
+          <span className="text-blue-800 font-semibold">Automation</span>,{' '}
+          <span className="text-blue-800 font-semibold">IoT</span>,{' '}
+          <span className="text-blue-800 font-semibold">Electronics</span>,{' '}
           <span className="text-blue-800 font-semibold">Cybersecurity</span>,
           and{' '}
           <span className="text-blue-800 font-semibold">
@@ -110,6 +107,13 @@ export default function Hero() {
           </button>
 
           <button
+            onClick={() => navigate('/tracks')}
+            className="cursor-pointer px-8 py-4 bg-gradient-to-r from-green-500 via-green-600 to-green-700 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-105 transition-all duration-300"
+          >
+            📂 Conference Tracks
+          </button>
+
+          <button
             onClick={handleGuideline}
             className="cursor-pointer px-8 py-4 bg-white text-indigo-700 text-lg font-semibold rounded-xl border border-indigo-300 shadow hover:scale-105 transition-all duration-300 hover:bg-indigo-50"
           >
@@ -117,7 +121,7 @@ export default function Hero() {
           </button>
         </motion.div>
       </div>
-      <div className="mt-12 w-full overflow-hidden">
+      <div className="mt-5 w-full overflow-hidden">
         <p className="whitespace-nowrap text-red-600 text-2xl md:text-xl font-bold py-2 flex items-center cursor-pointer marquee pause">
           <Megaphone
             className="w-5 h-5 mr-2 flex-shrink-0"

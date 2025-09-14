@@ -9,6 +9,7 @@ import './App.css';
 import { Toaster } from 'react-hot-toast';
 import Guidelines from './pages/Guidelines';
 import SubmitPaper from './pages/SubmitPaper';
+import ConferenceTrack from './pages/ConferenceTrack';
 import ReviewProcss from './pages/ReviewProcess';
 import Presentation from './pages/Presentation';
 import AdminDashboard from './pages/AdminDashboard';
@@ -35,6 +36,7 @@ function Root() {
             }
           />
           <Route path="guidelines" element={<Guidelines />} />
+          <Route path="tracks" element={<ConferenceTrack />} />
           <Route path="contact" element={<Contact />} />
           <Route path="review-process" element={<ReviewProcss />} />
           <Route path="presentation" element={<Presentation />} />

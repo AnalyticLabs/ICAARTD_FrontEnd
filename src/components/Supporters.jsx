@@ -1,36 +1,43 @@
-import { motion } from "framer-motion";
-import WybbleAI from "../assets/logo.png";
-import AnalyticLabs from "../assets/AL_logo.png";
-import Fluxx from "../assets/fluxx.png";
-import EPlato from "../assets/E-Plato.png";
-import Eupeep from "../assets/Eupeep.png";
+import { motion } from 'framer-motion';
+import WybbleAI from '../assets/logo.png';
+import AnalyticLabs from '../assets/AL_logo.png';
+import Fluxx from '../assets/fluxx.png';
+import EPlato from '../assets/E-Plato.png';
+import Eupeep from '../assets/Eupeep.png';
+import CloudHub from '../assets/CloudHub.webp';
 
 const supporters = [
   {
     src: WybbleAI,
-    label: "WybbleAI",
-    bgColor: "bg-[#159abb]",
-    url: "https://wybbleai.com",
+    label: 'WybbleAI',
+    bgColor: 'bg-[#159abb]',
+    url: 'https://wybbleai.com',
+  },
+  {
+    src: CloudHub,
+    label: 'CloudHub',
+    bgColor: 'bg-gradient-to-br from-yellow-500 to-yellow-300',
+    url: 'https://cloudhubs.nl',
   },
   {
     src: AnalyticLabs,
-    label: "AnalyticLabs",
-    bgColor: "bg-gradient-to-br from-purple-500 to-blue-400",
-    url: "https://analyticlabs.co.in",
+    label: 'AnalyticLabs',
+    bgColor: 'bg-gradient-to-br from-purple-500 to-blue-400',
+    url: 'https://analyticlabs.co.in',
   },
   {
     src: Fluxx,
-    label: "Fluxx",
-    bgColor: "bg-blue-600",
-    url: "https://www.fluxxelectric.com",
+    label: 'Fluxx',
+    bgColor: 'bg-blue-600',
+    url: 'https://www.fluxxelectric.com',
   },
-  { src: EPlato, label: "EPlato", url: "https://e-plato.com" },
-  { src: Eupeep, label: "Eupeep", url: "https://www.eupep.com" },
+  { src: EPlato, label: 'EPlato', url: 'https://e-plato.com' },
+  { src: Eupeep, label: 'Eupeep', url: 'https://www.eupep.com' },
 ];
 
 export default function Supporters({ title }) {
   const handleImage = (url) => {
-    if (url) window.open(url, "_blank");
+    if (url) window.open(url, '_blank');
   };
 
   return (
@@ -45,7 +52,7 @@ export default function Supporters({ title }) {
           {title}
         </motion.h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8">
           {supporters.map((supporter, idx) => (
             <motion.div
               key={idx}
@@ -56,7 +63,7 @@ export default function Supporters({ title }) {
               transition={{ delay: idx * 0.1, duration: 0.5 }}
               onClick={() => handleImage(supporter.url)}
               className={`cursor-pointer flex flex-col items-center p-4 rounded-xl shadow-xl backdrop-blur-md border border-gray-200 hover:shadow-2xl transition transform hover:-translate-y-1 ${
-                supporter.bgColor || "bg-slate-700"
+                supporter.bgColor || 'bg-slate-700'
               }`}
             >
               <img
