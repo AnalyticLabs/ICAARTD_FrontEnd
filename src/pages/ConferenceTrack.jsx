@@ -44,7 +44,6 @@ const tracks = [
 export default function ConferenceTrack() {
   return (
     <section className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-12 px-6">
-      {/* Hero Title */}
       <motion.div
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -63,7 +62,6 @@ export default function ConferenceTrack() {
         </p>
       </motion.div>
 
-      {/* Tracks Section */}
       <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-2 max-w-6xl mx-auto">
         {tracks.map((track, index) => (
           <motion.div
@@ -89,7 +87,6 @@ export default function ConferenceTrack() {
               ))}
             </ul>
 
-            {/* Gradient Shine Effect */}
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 opacity-0 group-hover:opacity-100"
               initial={false}
