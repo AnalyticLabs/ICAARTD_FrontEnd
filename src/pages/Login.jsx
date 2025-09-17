@@ -37,8 +37,7 @@ export default function Login() {
       else navigate('/submit-paper');
     } catch (err) {
       toast.dismiss();
-      const errorMessage = typeof err === 'string' ? err : 'Login failed!';
-      toast.error(errorMessage);
+      toast.error(err || 'Login failed!');
     }
   };
   return (

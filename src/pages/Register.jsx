@@ -46,9 +46,7 @@ export default function Register() {
       });
     } catch (err) {
       toast.dismiss();
-      const errorMessage =
-        typeof err === 'string' ? err : 'Failed to send OTP!';
-      toast.error(errorMessage);
+      toast.error(err || 'Failed to send OTP!');
     }
   };
 
