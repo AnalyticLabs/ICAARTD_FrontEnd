@@ -13,7 +13,7 @@ import Speakers from '@/components/Speakers';
 
 const sections = [
   {
-    icon: <Lightbulb className="text-purple-600" size={28} />,
+    icon: <Lightbulb className="text-indigo-600" size={28} />,
     title: 'Welcome to ICAARTD Forum',
     content: (
       <>
@@ -43,7 +43,7 @@ const sections = [
     ),
   },
   {
-    icon: <Layers className="text-blue-600" size={28} />,
+    icon: <Layers className="text-indigo-600" size={28} />,
     title: 'Submission Tracks',
     content: (
       <>
@@ -60,7 +60,7 @@ const sections = [
     ),
   },
   {
-    icon: <ClipboardCheck className="text-teal-600" size={28} />,
+    icon: <ClipboardCheck className="text-indigo-600" size={28} />,
     title: 'Submission Guidelines',
     content: (
       <>
@@ -74,36 +74,6 @@ const sections = [
           Submission Guidelines
         </a>{' '}
         page for details.
-      </>
-    ),
-  },
-  {
-    icon: <PhoneCall className="text-pink-600" size={28} />,
-    title: 'Contact & Support',
-    content: (
-      <>
-        For queries related to submission, formatting, or registration:
-        <ul className="list-disc list-inside mt-2">
-          <li>
-            Email:{' '}
-            <span className="font-medium text-indigo-600">
-              nimai.analyticlabs@gmail.com
-            </span>
-          </li>
-          <li>
-            Phone:{' '}
-            <span className="font-medium text-indigo-600">+91 9591957282</span>
-          </li>
-          <li>
-            Submission Portal:{' '}
-            <a
-              href="/submit-paper"
-              className="font-medium text-indigo-600 underline underline-offset-4"
-            >
-              Submit Your Paper
-            </a>
-          </li>
-        </ul>
       </>
     ),
   },

@@ -92,7 +92,7 @@ export default function Speakers() {
   };
 
   return (
-    <section className="py-8 px-6 lg:px-12 bg-gradient-to-r from-[#fdfcfb] to-[#e2d1c3]">
+    <section className="py-8 px-6 lg:px-12">
       <h2 className="text-3xl text-center md:text-4xl font-extrabold text-gray-700 mb-12 tracking-wide">
         Featured Speakers
       </h2>

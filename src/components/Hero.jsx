@@ -1,5 +1,5 @@
 import { motion, useAnimation } from 'framer-motion';
-import { Megaphone } from 'lucide-react';
+import { BookOpenText, FolderOpen, Megaphone, Rocket } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -101,23 +101,26 @@ export default function Hero() {
         >
           <button
             onClick={handleSubmitPaper}
-            className="cursor-pointer px-8 py-4 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-105 transition-all duration-300"
+            className="cursor-pointer flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-105 transition-all duration-300"
           >
-            🚀 Submit Paper
+            <Rocket className="w-5 h-5" />
+            Submit Paper
           </button>
 
           <button
             onClick={() => navigate('/tracks')}
-            className="cursor-pointer px-8 py-4 bg-gradient-to-r from-green-500 via-green-600 to-green-700 text-white text-lg font-semibold rounded-xl shadow-md hover:scale-105 transition-all duration-300"
+            className="cursor-pointer flex items-center justify-center gap-2 px-8 py-4 bg-white text-indigo-700 text-lg font-semibold rounded-xl shadow-md hover:scale-105 transition-all duration-300"
           >
-            📂 Conference Tracks
+            <FolderOpen className="w-5 h-5" />
+            Conference Tracks
           </button>
 
           <button
             onClick={handleGuideline}
-            className="cursor-pointer px-8 py-4 bg-white text-indigo-700 text-lg font-semibold rounded-xl border border-indigo-300 shadow hover:scale-105 transition-all duration-300 hover:bg-indigo-50"
+            className="cursor-pointer flex items-center justify-center gap-2 px-8 py-4 bg-white text-indigo-700 text-lg font-semibold rounded-xl border border-indigo-300 shadow hover:scale-105 transition-all duration-300 hover:bg-indigo-50"
           >
-            📘 View Guidelines
+            <BookOpenText className="w-5 h-5" />
+            View Guidelines
           </button>
         </motion.div>
       </div>
@@ -128,10 +131,10 @@ export default function Hero() {
             stroke="red"
             strokeWidth={3}
           />
-          Abstract Submission Deadline - 15th Oct 2025 | Full Paper Submission -
-          31st Oct 2025 | Proceedings Submitted to IEEE Xplore, Scopus & Web of
-          Science | Conference Date - Last Saturday, December 2025 | Mode:
-          Hybrid (Virtual & Offline)
+          Abstract Submission Deadline - 15th Dec 2025 | Full Paper Submission -
+          31st Dec 2025 | Proceedings Submitted to IEEE Xplore, Scopus & Web of
+          Science | Conference Date - Last of December 2025 | Mode: Hybrid
+          (Virtual & Offline)
         </p>
       </div>
       {/* IEEE Publication Section */}

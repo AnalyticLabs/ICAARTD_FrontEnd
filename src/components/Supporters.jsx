@@ -31,8 +31,16 @@ const supporters = [
     bgColor: 'bg-blue-600',
     url: 'https://www.fluxxelectric.com',
   },
-  { src: EPlato, label: 'EPlato', url: 'https://e-plato.com' },
-  { src: Eupeep, label: 'Eupeep', url: 'https://www.eupep.com' },
+  {
+    src: EPlato,
+    label: 'EPlato',
+    url: 'https://e-plato.com',
+  },
+  {
+    src: Eupeep,
+    label: 'Eupeep',
+    url: 'https://www.eupep.com',
+  },
 ];
 
 export default function Supporters({ title }) {
