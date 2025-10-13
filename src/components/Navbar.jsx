@@ -9,18 +9,18 @@ import { logoutUser } from '../features/auth/authSlice';
 
 const navLinks = [
   { path: '/', label: 'Home' },
-  {
-    path: '/tracks',
-    label: (
-      <>
-        <span className="hidden md:inline">Conference Tracks</span>
-        <span className="inline md:hidden">Tracks</span>
-      </>
-    ),
-  },
-  { path: '/submit-paper', label: 'Submission' },
+  // {
+  //   path: '/tracks',
+  //   label: (
+  //     <>
+  //       <span className="hidden md:inline">Conference Tracks</span>
+  //       <span className="inline md:hidden">Tracks</span>
+  //     </>
+  //   ),
+  // },
+  // { path: '/submit-paper', label: 'Submission' },
   { path: '/dashboard', label: 'Dashboard' },
-  { path: '/guidelines', label: 'Guidelines' },
+  // { path: '/guidelines', label: 'Guidelines' },
   { path: '/review-process', label: 'Review' },
   { path: '/presentation', label: 'Presentation' },
   { path: '/contact', label: 'Contact' },
