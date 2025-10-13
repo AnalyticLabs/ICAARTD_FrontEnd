@@ -6,10 +6,8 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor
 axiosInstance.interceptors.request.use(
   async (config) => {
-    // dynamic import to avoid circular dependency
     const { store } = await import('../store');
     const token = store.getState().auth.accessToken;
     if (token) config.headers.Authorization = `Bearer ${token}`;
@@ -18,7 +16,6 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -30,10 +27,10 @@ axiosInstance.interceptors.response.use(
         const res = await axiosInstance.post('/users/refresh-token');
         const { accessToken, refreshToken } = res.data?.data;
 
-        const { store } = await import('../store'); // dynamic import
+        const { store } = await import('../store');
         if (accessToken && refreshToken) {
           store.dispatch({
-            type: 'auth/updateTokens', // make sure this exists in your authSlice
+            type: 'auth/updateTokens',
             payload: { accessToken, refreshToken },
           });
 
