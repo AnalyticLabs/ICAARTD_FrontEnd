@@ -16,6 +16,7 @@ import {
   FileCheck2,
   Search,
   Check,
+  Plus,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +46,10 @@ export default function AdminDashboard() {
   const { user } = useSelector((state) => state.auth);
   const userRole = user?.role || 'Author';
   const userEmail = user?.email;
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    paperId: null,
+  });
 
   // ------------------- Reusable fetch function -------------------
   const fetchPapers = useCallback(async () => {
@@ -93,14 +98,27 @@ export default function AdminDashboard() {
     navigate('/submit-paper', { state: { paper, isEdit: true } });
   };
 
-  const handleDelete = async (paperId) => {
-    if (!window.confirm('Are you sure you want to delete this paper?')) return;
+  // const handleDelete = async (paperId) => {
+  //   if (!window.confirm('Are you sure you want to delete this paper?')) return;
+
+  //   try {
+  //     await dispatch(deletePaper(paperId)).unwrap();
+  //     toast.success('Paper deleted successfully!');
+  //     fetchPapers();
+  //   } catch (error) {
+  //     toast.error('Failed to delete paper');
+  //   }
+  // };
+
+  const confirmDelete = async () => {
+    const paperId = confirmModal.paperId;
+    setConfirmModal({ open: false, paperId: null });
 
     try {
       await dispatch(deletePaper(paperId)).unwrap();
       toast.success('Paper deleted successfully!');
       fetchPapers();
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete paper');
     }
   };
@@ -174,9 +192,19 @@ export default function AdminDashboard() {
 
       <motion.div className="relative z-10 text-center mb-10">
         <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-transparent bg-clip-text">
-          <span className="text-white">🧾</span> Admin Paper Submissions
+          Admin Paper Submissions
         </h1>
       </motion.div>
+
+      {/* Floating Submit Button */}
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => navigate('/submit-paper')}
+        className="cursor-pointer fixed bottom-8 right-8 z-50 bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-2xl rounded-full px-4 py-3 flex items-center justify-center hover:from-indigo-700 hover:to-purple-700 transition-all"
+      >
+        <Plus className="w-6 h-6 mr-2" /> Submit Paper
+      </motion.button>
 
       {/* Search Bar */}
       <div className="relative max-w-xl mx-auto mb-12">
@@ -263,7 +291,7 @@ export default function AdminDashboard() {
                           handleStatusChange(paper._id, value)
                         }
                       >
-                        <SelectTrigger className="w-52 rounded-xl border border-gray-200 shadow-md bg-white px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-400">
+                        <SelectTrigger className="cursor-pointer w-52 rounded-xl border border-gray-200 shadow-md bg-white px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-indigo-400">
                           <SelectValue />
                         </SelectTrigger>
 
@@ -328,7 +356,10 @@ export default function AdminDashboard() {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(paper._id)}
+                      // onClick={() => handleDelete(paper._id)}
+                      onClick={() =>
+                        setConfirmModal({ open: true, paperId: paper._id })
+                      }
                       className="cursor-pointer text-white bg-red-500 hover:bg-red-600 rounded-3xl px-4 py-1 font-medium inline-flex items-center gap-1 transition"
                     >
                       Delete
@@ -360,6 +391,36 @@ export default function AdminDashboard() {
               title="PDF Viewer"
               className="w-full h-full rounded-lg border border-gray-200"
             ></iframe>
+          </motion.div>
+        </div>
+      )}
+
+      {confirmModal.open && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 backdrop-blur-sm">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-2xl shadow-2xl p-8 w-[90%] max-w-md text-center"
+          >
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Are you sure you want to delete this paper?
+            </h3>
+            <p className="text-gray-500 mb-6">This action cannot be undone.</p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setConfirmModal({ open: false, paperId: null })}
+                className="cursor-pointer px-5 py-2 rounded-full bg-gray-200 text-gray-800 font-medium hover:bg-gray-300 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="cursor-pointer px-5 py-2 rounded-full bg-red-500 text-white font-medium hover:bg-red-600 transition"
+              >
+                Delete
+              </button>
+            </div>
           </motion.div>
         </div>
       )}

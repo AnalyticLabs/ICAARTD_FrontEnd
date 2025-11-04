@@ -3,45 +3,45 @@ import {
   Presentation,
   ClipboardList,
   CloudUpload,
-} from "lucide-react";
-import FeatureCard from "./FeatureCard";
+} from 'lucide-react';
+import FeatureCard from './FeatureCard';
 
 const features = [
   {
     Icon: FileText,
-    title: "Submission Guidelines",
+    title: 'Submission Guidelines',
     description:
-      "Learn how to format and prepare your manuscript before submission.",
-    path: "/guidelines",
+      'Learn how to format and prepare your manuscript before submission.',
+    path: '/guidelines',
   },
   {
     Icon: ClipboardList,
-    title: "Review Process",
-    description: "Understand the peer-review process and evaluation criteria.",
-    path: "/review-process",
+    title: 'Review Process',
+    description: 'Understand the peer-review process and evaluation criteria.',
+    path: '/review-process',
   },
   {
     Icon: CloudUpload,
-    title: "Submit Your Paper",
+    title: 'Submit Your Paper',
     description:
-      "Upload your manuscript and track its status through our platform.",
-    path: "/submit-paper",
+      'Upload your manuscript and track its status through our platform.',
+    path: '/submit-paper',
   },
   {
     Icon: Presentation,
-    title: "Presentation Guidelines",
+    title: 'Presentation Guidelines',
     description:
-      "Instructions for presenting accepted papers at the conference.",
-    path: "/presentation",
+      'Instructions for presenting accepted papers at the conference.',
+    path: '/presentation',
   },
 ];
 
 export default function Features() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-8 py-8">
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 px-16 py-8">
       {features.map((feature, idx) => (
         <FeatureCard key={idx} {...feature} index={idx} />
       ))}
-    </div>
+    </section>
   );
 }

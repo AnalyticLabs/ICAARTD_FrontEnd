@@ -77,9 +77,121 @@ const speakers = [
   },
 ];
 
+// export default function Speakers() {
+//   const scrollRef = useRef(null);
+
+//   const CARD_WIDTH = 300;
+
+//   const scroll = (direction) => {
+//     if (scrollRef.current) {
+//       scrollRef.current.scrollBy({
+//         left: direction === 'left' ? -CARD_WIDTH : CARD_WIDTH,
+//         behavior: 'smooth',
+//       });
+//     }
+//   };
+
+//   return (
+//     <section className="py-8 px-6 lg:px-12">
+//       <h2 className="text-3xl text-center md:text-4xl font-extrabold text-gray-700 mb-12 tracking-wide">
+//         Featured Speakers
+//       </h2>
+
+//       <div className="relative">
+//         {/* Wrapper ensures not all 7 are visible */}
+//         <div className="overflow-hidden">
+//           <div
+//             ref={scrollRef}
+//             className="flex gap-8 overflow-x-auto overflow-y-hidden scroll-smooth no-scrollbar"
+//           >
+//             {speakers.map((speaker, idx) => (
+//               <motion.div
+//                 key={idx}
+//                 className="group perspective flex-shrink-0 w-56 h-64 cursor-pointer"
+//                 initial={{ opacity: 0, y: 40 }}
+//                 whileInView={{ opacity: 1, y: 0 }}
+//                 transition={{ duration: 0.5, delay: idx * 0.2 }}
+//                 viewport={{ once: true }}
+//               >
+//                 <div className="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180 rounded-xl shadow-md border border-gray-200">
+//                   <div className="absolute w-full h-full backface-hidden rounded-xl overflow-hidden">
+//                     <img
+//                       src={speaker.src}
+//                       alt={speaker.name}
+//                       className="w-full h-full object-cover"
+//                     />
+//                     {/* Overlay at bottom */}
+//                     <div className="absolute bottom-0 w-full bg-black/50 text-white p-2 text-center rounded-b-xl">
+//                       <h4 className="text-base font-semibold">
+//                         {speaker.name}
+//                       </h4>
+//                       <p className="text-sm font-light">
+//                         {speaker.role.split(',')[1]?.trim() || speaker.role}
+//                       </p>
+//                     </div>
+//                   </div>
+
+//                   <div
+//                     className="absolute w-56 h-64 backface-hidden rotate-y-180
+//   bg-gradient-to-br from-purple-500 via-pink-500 to-red-500
+//   rounded-xl p-4 flex flex-col justify-center items-center text-center text-white"
+//                   >
+//                     {/* Name */}
+//                     <h3 className="text-lg font-bold mb-1 tracking-wide">
+//                       {speaker.name}
+//                     </h3>
+
+//                     {/* Role */}
+//                     <p className="text-xs font-medium text-teal-200 mb-2 uppercase">
+//                       {speaker.role}
+//                     </p>
+
+//                     {/* Title / Description */}
+//                     <p className="text-sm font-light text-white/90 leading-relaxed mb-3 px-2">
+//                       {speaker.title}
+//                     </p>
+
+//                     {/* LinkedIn */}
+//                     <a
+//                       href={speaker.linkedin}
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                       className="flex items-center gap-1 text-white hover:text-teal-400 font-semibold text-sm"
+//                     >
+//                       <Linkedin size={16} />
+//                       <span>{speaker.name}</span>
+//                     </a>
+
+//                     <div className="w-8 h-1 bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500 rounded mt-3" />
+//                   </div>
+//                 </div>
+//               </motion.div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Scroll Buttons */}
+//         <div className="flex justify-center gap-6 mt-8">
+//           <button
+//             onClick={() => scroll('left')}
+//             className="p-3 cursor-pointer rounded-full bg-pink-500 text-white shadow-md hover:bg-pink-600 transition"
+//           >
+//             <ChevronLeft size={24} />
+//           </button>
+//           <button
+//             onClick={() => scroll('right')}
+//             className="p-3 cursor-pointer rounded-full bg-pink-500 text-white shadow-md hover:bg-pink-600 transition"
+//           >
+//             <ChevronRight size={24} />
+//           </button>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
 export default function Speakers() {
   const scrollRef = useRef(null);
-
   const CARD_WIDTH = 300;
 
   const scroll = (direction) => {
@@ -92,13 +204,12 @@ export default function Speakers() {
   };
 
   return (
-    <section className="py-8 px-6 lg:px-12">
-      <h2 className="text-3xl text-center md:text-4xl font-extrabold text-gray-700 mb-12 tracking-wide">
+    <section className="mb-5 mt-6 px-6 lg:px-16">
+      <h2 className="text-3xl text-center md:text-4xl font-extrabold text-indigo-800 mb-12 tracking-wide">
         Featured Speakers
       </h2>
 
       <div className="relative">
-        {/* Wrapper ensures not all 7 are visible */}
         <div className="overflow-hidden">
           <div
             ref={scrollRef}
@@ -113,15 +224,14 @@ export default function Speakers() {
                 transition={{ duration: 0.5, delay: idx * 0.2 }}
                 viewport={{ once: true }}
               >
-                <div className="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180 rounded-xl shadow-md border border-gray-200">
+                <div className="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180 rounded-xl shadow-md border border-indigo-200">
                   <div className="absolute w-full h-full backface-hidden rounded-xl overflow-hidden">
                     <img
                       src={speaker.src}
                       alt={speaker.name}
                       className="w-full h-full object-cover"
                     />
-                    {/* Overlay at bottom */}
-                    <div className="absolute bottom-0 w-full bg-black/50 text-white p-2 text-center rounded-b-xl">
+                    <div className="absolute bottom-0 w-full bg-indigo-900/70 text-white p-2 text-center rounded-b-xl">
                       <h4 className="text-base font-semibold">
                         {speaker.name}
                       </h4>
@@ -133,36 +243,28 @@ export default function Speakers() {
 
                   <div
                     className="absolute w-56 h-64 backface-hidden rotate-y-180
-  bg-gradient-to-br from-purple-500 via-pink-500 to-red-500
-  rounded-xl p-4 flex flex-col justify-center items-center text-center text-white"
+                    bg-gradient-to-br from-indigo-700 via-indigo-600 to-indigo-500
+                    rounded-xl p-4 flex flex-col justify-center items-center text-center text-white"
                   >
-                    {/* Name */}
                     <h3 className="text-lg font-bold mb-1 tracking-wide">
                       {speaker.name}
                     </h3>
-
-                    {/* Role */}
-                    <p className="text-xs font-medium text-teal-200 mb-2 uppercase">
+                    <p className="text-xs font-medium text-indigo-300 mb-2 uppercase">
                       {speaker.role}
                     </p>
-
-                    {/* Title / Description */}
                     <p className="text-sm font-light text-white/90 leading-relaxed mb-3 px-2">
                       {speaker.title}
                     </p>
-
-                    {/* LinkedIn */}
                     <a
                       href={speaker.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-white hover:text-teal-400 font-semibold text-sm"
+                      className="flex items-center gap-1 text-white hover:text-indigo-300 font-semibold text-sm"
                     >
                       <Linkedin size={16} />
                       <span>{speaker.name}</span>
                     </a>
-
-                    <div className="w-8 h-1 bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500 rounded mt-3" />
+                    <div className="w-8 h-1 bg-gradient-to-r from-indigo-400 via-indigo-500 to-indigo-600 rounded mt-3" />
                   </div>
                 </div>
               </motion.div>
@@ -170,17 +272,16 @@ export default function Speakers() {
           </div>
         </div>
 
-        {/* Scroll Buttons */}
         <div className="flex justify-center gap-6 mt-8">
           <button
             onClick={() => scroll('left')}
-            className="p-3 cursor-pointer rounded-full bg-pink-500 text-white shadow-md hover:bg-pink-600 transition"
+            className="p-3 cursor-pointer rounded-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transition"
           >
             <ChevronLeft size={24} />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="p-3 cursor-pointer rounded-full bg-pink-500 text-white shadow-md hover:bg-pink-600 transition"
+            className="p-3 cursor-pointer rounded-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transition"
           >
             <ChevronRight size={24} />
           </button>

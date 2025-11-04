@@ -84,7 +84,7 @@ export default function Navbar() {
         <div className="flex space-x-3 min-w-[160px] justify-end">
           {!user ? (
             <>
-              <Link
+              {/* <Link
                 to="/register"
                 className={`flex cursor-pointer items-center gap-1 px-4 py-1 text-base rounded-full transition-all duration-200 font-semibold ${
                   pathname === '/register'
@@ -93,7 +93,7 @@ export default function Navbar() {
                 }`}
               >
                 <UserPlus className="w-4 h-4" /> Register
-              </Link>
+              </Link> */}
               <Link
                 to="/login"
                 className={`flex cursor-pointer items-center gap-1 px-4 py-1 text-base rounded-full transition-all duration-200 font-semibold ${

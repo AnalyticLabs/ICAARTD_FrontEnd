@@ -19,6 +19,7 @@ export default function SubmitPaper() {
     paperTitle: paper?.paperTitle || '',
     abstract: paper?.abstract || '',
     keywords: paper?.keywords ? paper.keywords[0] : '',
+    customKeyword: '',
     confirm: false,
     pdfFile: null,
     supplementary: null,
@@ -58,7 +59,11 @@ export default function SubmitPaper() {
     formData.append('email', form.email);
     formData.append('paperTitle', form.paperTitle);
     formData.append('abstract', form.abstract);
-    formData.append('keywords', form.keywords);
+    // formData.append('keywords', form.keywords);
+    const finalKeywords =
+      form.keywords === 'OTHERS' ? form.customKeyword : form.keywords;
+
+    formData.append('keywords', finalKeywords);
 
     if (form.pdfFile) formData.append('pdfFile', form.pdfFile);
     if (form.supplementary)
@@ -96,6 +101,7 @@ export default function SubmitPaper() {
     { label: 'Machine Learning', value: 'ML' },
     { label: 'Natural Language Processing', value: 'NLP' },
     { label: 'Computer Vision', value: 'CV' },
+    { label: 'Others', value: 'OTHERS' },
   ];
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -128,7 +134,7 @@ export default function SubmitPaper() {
           transition={{ duration: 0.6 }}
           className="text-4xl font-extrabold text-center text-indigo-700 mb-6"
         >
-          📝 Submit Your Paper
+          Submit Your Paper
         </motion.h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -197,7 +203,7 @@ export default function SubmitPaper() {
           </motion.div>
 
           {/* Keywords */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
@@ -253,6 +259,88 @@ export default function SubmitPaper() {
                 </motion.ul>
               )}
             </AnimatePresence>
+          </motion.div> */}
+
+          {/* Keywords */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="relative"
+          >
+            {/* Display dropdown or custom input depending on selection */}
+            {form.keywords === 'OTHERS' ? (
+              <input
+                type="text"
+                name="customKeyword"
+                placeholder="Enter your custom keywords"
+                value={form.customKeyword || ''}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    customKeyword: e.target.value,
+                  }))
+                }
+                className="w-full p-3 rounded-xl bg-white/60 border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+              />
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setDropdownOpen((prev) => !prev)}
+                  className="cursor-pointer w-full flex items-center justify-between px-4 py-3 rounded-xl bg-white/60 border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                >
+                  <span className="text-gray-700">
+                    {form.keywords
+                      ? keywordOptions.find((k) => k.value === form.keywords)
+                          ?.label
+                      : 'Select Keywords'}
+                  </span>
+                  <motion.div
+                    animate={{ rotate: dropdownOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="w-5 h-5 text-indigo-500" />
+                  </motion.div>
+                </button>
+
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.ul
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute z-10 mt-2 w-full bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden"
+                    >
+                      {keywordOptions.map((option) => (
+                        <li
+                          key={option.value}
+                          onClick={() => {
+                            setForm((prev) => ({
+                              ...prev,
+                              keywords: option.value,
+                              customKeyword: '', // reset custom input
+                            }));
+                            setDropdownOpen(false);
+                          }}
+                          className={`px-4 py-3 cursor-pointer hover:bg-indigo-50 flex items-center justify-between ${
+                            form.keywords === option.value
+                              ? 'bg-indigo-100'
+                              : ''
+                          }`}
+                        >
+                          {option.label}
+                          {form.keywords === option.value && (
+                            <Check className="w-4 h-4 text-indigo-600" />
+                          )}
+                        </li>
+                      ))}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
+              </>
+            )}
           </motion.div>
 
           {/* Upload PDF */}
@@ -326,7 +414,7 @@ export default function SubmitPaper() {
               name="confirm"
               checked={form.confirm}
               onChange={handleChange}
-              className="w-4 h-4"
+              className="w-4 h-4 cursor-pointer"
             />
             I confirm this is original work
           </motion.label>
@@ -341,7 +429,7 @@ export default function SubmitPaper() {
             className="w-full cursor-pointer py-3 mt-2 text-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-xl hover:scale-105 transition-transform"
             disabled={loading}
           >
-            {isEdit ? '✏️ Edit Paper' : '🚀 Submit'}
+            {isEdit ? 'Edit Paper' : 'Submit'}
           </motion.button>
         </form>
       </motion.div>

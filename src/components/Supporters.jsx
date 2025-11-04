@@ -50,7 +50,7 @@ export default function Supporters({ title }) {
 
   return (
     <section className="w-full px-6 py-12 bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 transition duration-300">
-      <div className="max-w-7xl mx-auto text-center">
+      <div className="max-w-[87rem] mx-auto text-center">
         <motion.h2
           className="text-3xl md:text-4xl font-extrabold text-white mb-12 tracking-wide"
           initial={{ opacity: 0, y: -20 }}

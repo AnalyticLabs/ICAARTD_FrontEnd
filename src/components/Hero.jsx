@@ -43,11 +43,11 @@ export default function Hero() {
               1<sup>st</sup> International Conference On Advancements in Applied
               Research & Technological Development
             </span>
-            <span className="block">Bengaluru, India, 2025</span>
-            <span className="block text-yellow-300 font-bold tracking-wide">
+            <span className="block">Bengaluru, India, 2026</span>
+            {/* <span className="block text-yellow-300 font-bold tracking-wide">
               Proceedings to be Submitted for Publication in IEEE Xplore Digital
               Library
-            </span>
+            </span> */}
           </h4>
 
           <h1 className="text-3xl sm:text-6xl font-extrabold text-white drop-shadow-md leading-tight">
@@ -131,14 +131,13 @@ export default function Hero() {
             stroke="red"
             strokeWidth={3}
           />
-          Abstract Submission Deadline - 15th Dec 2025 | Full Paper Submission -
-          31st Dec 2025 | Proceedings Submitted to IEEE Xplore, Scopus & Web of
-          Science | Conference Date - Last of December 2025 | Mode: Hybrid
-          (Virtual & Offline)
+          Abstract Submission Deadline - May 2026 | Full Paper Submission - July
+          2025 | Conference Date - October 2025 | Mode: Hybrid (Virtual &
+          Offline)
         </p>
       </div>
       {/* IEEE Publication Section */}
-      <section className="mt-12 max-w-4xl mx-auto text-center px-6">
+      {/* <section className="mt-12 max-w-4xl mx-auto text-center px-6">
         <h2 className="text-2xl font-bold text-[#003366] mb-4">
           Publication & Indexing
         </h2>
@@ -149,7 +148,7 @@ export default function Hero() {
           <span className="font-semibold"> Web of Science</span>. Papers must
           follow the official IEEE conference paper format.
         </p>
-      </section>
+      </section> */}
     </section>
   );
 }
